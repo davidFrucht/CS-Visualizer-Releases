@@ -1,0 +1,6 @@
+{
+  "min_build_required": 0,
+  "lock_message": "This version of CS Visualizer is no longer supported. Please update to continue.",
+  "win_url": "https://github.com/davidFrucht/CS-Visualizer-Releases/releases/download/latest/CSVisualizer-Windows.exe",
+  "mac_url": "https://github.com/davidFrucht/CS-Visualizer-Releases/releases/download/latest/CSVisualizer-macOS.zip"
+}

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CS-Visualizer Plugin Privacy Policy</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        h2 {
+            font-size: 18px;
+            margin-top: 25px;
+            margin-bottom: 10px;
+        }
+        p {
+            margin-bottom: 10px;
+        }
+        ul {
+            margin-left: 20px;
+            margin-bottom: 10px;
+        }
+        li {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>CS-Visualizer Plugin Privacy Policy</h1>
+
+<p><strong>Last Updated: March 31, 2026</strong></p>
+
+<h2>Overview</h2>
+<p>The CS-Visualizer Plugin is a companion tool for the CS-Visualizer webapp. We are committed to protecting your privacy.</p>
+
+<h2>Data Collection</h2>
+<p>The Plugin does NOT collect, store, or transmit personal data. Specifically:</p>
+<ul>
+<li>Your code and data are processed locally and never sent to external servers</li>
+<li>No usage analytics or telemetry are collected</li>
+<li>No account or registration is required to use the Plugin</li>
+<li>Plugin settings are stored locally on your device only</li>
+</ul>
+
+<h2>Communication with CS-Visualizer</h2>
+<p>The Plugin may communicate with the CS-Visualizer webapp to:</p>
+<ul>
+<li>Authenticate your account (if using a CS-Visualizer account)</li>
+<li>Sync settings and preferences</li>
+<li>Deliver features and updates</li>
+</ul>
+<p>Any data sent to CS-Visualizer servers is subject to the CS-Visualizer webapp's Privacy Policy.</p>
+
+<h2>Third-Party Services</h2>
+<p>The Plugin does not integrate with any third-party analytics, advertising, or tracking services.</p>
+
+<h2>Children's Privacy</h2>
+<p>The Plugin does not knowingly collect information from children under 13. As no personal data is collected from any user, this Plugin is safe for all ages.</p>
+
+<h2>Changes to This Policy</h2>
+<p>We may update this privacy policy at any time. Changes will be posted on this page with an updated date. Continued use of the Plugin means you accept the updated policy.</p>
+
+<h2>Contact</h2>
+<p>Questions about privacy? Contact us at davidfruc@gmail.com or visit the CS-Visualizer project repository.</p>
+
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plugin License</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        h2 {
+            font-size: 18px;
+            margin-top: 25px;
+            margin-bottom: 10px;
+        }
+        p {
+            margin-bottom: 10px;
+        }
+        ul {
+            margin-left: 20px;
+            margin-bottom: 10px;
+        }
+        li {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>CS-Visualizer Plugin License Agreement</h1>
+
+<p><strong>Last Updated: March 31, 2026</strong></p>
+
+<h2>Overview</h2>
+<p>This plugin is a free companion tool for the CS-Visualizer webapp. It is proprietary software. All rights are reserved by the developer.</p>
+
+<h2>Grant of License</h2>
+<p>You may use this Plugin for personal, non-commercial educational purposes as a companion tool with CS-Visualizer.</p>
+
+<h2>Restrictions</h2>
+<p>You may NOT:</p>
+<ul>
+<li>Reverse-engineer or decompile the Plugin</li>
+<li>Redistribute, sublicense, or sell the Plugin</li>
+<li>Modify or create derivative works</li>
+<li>Use the Plugin for commercial purposes</li>
+<li>Remove proprietary notices or marks</li>
+</ul>
+
+<h2>Intellectual Property</h2>
+<p>All code, graphics, and features are the exclusive property of the developer. This license grants usage rights only, not ownership.</p>
+
+<h2>Educational Use</h2>
+<p>This Plugin is provided free of charge for educational purposes including classroom instruction, student learning, and self-study projects.</p>
+
+<h2>No Warranty</h2>
+<p>The Plugin is provided "as-is" without any warranty. The developer is not liable for any damages or loss arising from your use of the Plugin.</p>
+
+<h2>Termination</h2>
+<p>The developer may terminate your license to use the Plugin at any time. Upon termination, you must uninstall the Plugin.</p>
+
+<h2>Changes</h2>
+<p>The developer may modify this License Agreement at any time. Continued use of the Plugin means you accept the modified terms.</p>
+
+</body>
+</html>

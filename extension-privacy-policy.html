@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CS Visualizer Extension — Privacy Policy</title>
+  <style>
+    body { font-family: sans-serif; max-width: 720px; margin: 60px auto; padding: 0 24px; color: #222; line-height: 1.7; }
+    h1 { font-size: 24px; margin-bottom: 4px; }
+    h2 { font-size: 16px; margin-top: 32px; }
+    p, li { font-size: 14px; }
+    a { color: #0066cc; }
+  </style>
+</head>
+<body>
+
+  <h1>CS Visualizer Browser Extension — Privacy Policy</h1>
+  <p style="color:#666;font-size:13px;">Last updated: April 4, 2026</p>
+
+  <h2>Overview</h2>
+  <p>
+    The CS Visualizer browser extension detects code blocks on webpages and allows you to open
+    them directly in the CS Visualizer desktop application running locally on your machine.
+  </p>
+
+  <h2>What the Extension Does</h2>
+  <ul>
+    <li>Scans pages for code blocks (<code>&lt;pre&gt;</code> / <code>&lt;code&gt;</code> elements) and injects an "Open in CS Visualizer" button next to each one.</li>
+    <li>When you click the button, the code text from that block is passed to the CS Visualizer desktop application running on your own machine via <code>localhost</code>.</li>
+    <li>No code or page content is ever sent to any external or remote server.</li>
+  </ul>
+
+  <h2>Data Stored</h2>
+  <p>
+    The extension stores a single on/off preference (<code>csv_ext_enabled</code>) in your browser's
+    local storage. This data never leaves your device.
+  </p>
+
+  <h2>Local Communication</h2>
+  <p>
+    The extension communicates exclusively with the CS Visualizer desktop application via
+    <code>localhost:8080</code>. All data stays on your device.
+  </p>
+
+  <h2>Desktop Application</h2>
+  <p>
+    The CS Visualizer desktop application that this extension connects to requires a user account
+    for authentication and license verification (via Google Firebase). Please refer to the
+    <a href="https://davidfrucht.github.io/CS-Visualizer-Releases/privacy-policy.html" target="_blank">CS Visualizer full privacy policy</a>
+    for details on how the desktop application handles your data.
+  </p>
+
+  <h2>Third-Party Services</h2>
+  <p>
+    The extension does not integrate with any third-party analytics, advertising, or tracking services.
+  </p>
+
+  <h2>Children's Privacy</h2>
+  <p>
+    The extension does not collect any information from any user, including children under 13.
+  </p>
+
+  <h2>Changes to This Policy</h2>
+  <p>
+    Any updates to this policy will be posted on this page with an updated date.
+  </p>
+
+  <h2>Contact</h2>
+  <p>
+    Questions? Contact us at <a href="mailto:davidfruc@gmail.com">davidfruc@gmail.com</a>
+  </p>
+
+</body>
+</html>

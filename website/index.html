@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="CS Visualizer — Real-time visualization of C# and Java code. Flowcharts, recursion trees, OOP diagrams, data structures, Big O analysis, and OS simulation.">
+  <title>CS Visualizer — Real-time Code Visualization</title>
+
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="apple-touch-icon" href="favicon.png">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ==================== NAV ==================== -->
+  <nav id="navbar">
+    <a href="#" class="nav-logo">
+      <img src="favicon.png" class="nav-logo-mark" alt="CS Visualizer">
+      cs-visualizer
+    </a>
+
+    <ul class="nav-links">
+      <li><a href="#visualizers">Visualizers</a></li>
+      <li><a href="#features">Features</a></li>
+      <li><a href="#download">Download</a></li>
+      <li><a href="#plugins">IDE Plugins</a></li>
+      <li><a href="#extensions">Extensions</a></li>
+    </ul>
+
+    <div class="nav-right">
+      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+        <i class="fa-solid fa-moon" id="theme-icon"></i>
+      </button>
+      <button class="btn btn-outline" id="contact-btn">Contact</button>
+      <a href="#download" class="btn btn-primary">Download</a>
+    </div>
+  </nav>
+
+  <!-- ==================== HERO ==================== -->
+  <section id="hero">
+    <canvas id="hero-canvas"></canvas>
+
+    <div class="hero-inner">
+      <div class="hero-left">
+        <h1 class="hero-title" id="hero-title">
+          Every<br>
+          algorithm,<br>
+          <span class="hl">rendered.</span>
+        </h1>
+
+        <p class="hero-sub" id="hero-sub">
+          Real-time interactive diagrams from your actual C# and Java code.
+          Works inside VS Code, JetBrains, Visual Studio, and Eclipse.
+        </p>
+
+        <div class="hero-actions" id="hero-actions">
+          <a href="#download" class="btn btn-primary btn-lg">
+            <i class="fa-solid fa-arrow-down"></i> Download Free
+          </a>
+          <a href="#visualizers" class="btn btn-outline btn-lg">
+            Explore visualizers →
+          </a>
+        </div>
+
+      </div>
+
+      <div class="hero-right" id="hero-right">
+        <div class="app-window">
+          <div class="app-window-bar">
+            <span class="term-dot red"></span>
+            <span class="term-dot yellow"></span>
+            <span class="term-dot green"></span>
+            <span class="app-window-title" id="carousel-win-title">Flowchart Visualizer</span>
+          </div>
+          <div class="app-window-screen">
+            <img class="c-slide active" data-dark="images/flowchart-dark.png" data-light="images/flowchart-light.png" src="images/flowchart-dark.png" alt="Flowchart Visualizer">
+            <img class="c-slide" data-dark="images/ds-dark.png"        data-light="images/ds-light.png"        src="images/ds-dark.png"        alt="Data Structures">
+            <img class="c-slide" data-dark="images/oop-dark.png"       data-light="images/oop-light.png"       src="images/oop-dark.png"       alt="OOP Concepts">
+            <img class="c-slide" data-dark="images/rec-dark.png"       data-light="images/rec-light.png"       src="images/rec-dark.png"       alt="Recursion Visualizer">
+            <img class="c-slide" data-dark="images/algo-dark.png"      data-light="images/algo-light.png"      src="images/algo-dark.png"      alt="Algorithms">
+            <img class="c-slide" data-dark="images/complex-dark.png"   data-light="images/complex-light.png"   src="images/complex-dark.png"   alt="Complexity Analyzer">
+            <img class="c-slide" data-dark="images/dfos-dark.png"      data-light="images/dfos-light.png"      src="images/dfos-dark.png"      alt="DFOS — OS Concepts">
+            <img class="c-slide" data-dark="images/auto-dark.png"      data-light="images/auto-light.png"      src="images/auto-dark.png"      alt="Automata Theory">
+            <img class="c-slide" data-dark="images/numerical-dark.png" data-light="images/numerical-light.png" src="images/numerical-dark.png" alt="Numerical Methods">
+            <img class="c-slide" data-dark="images/bool-dark.png"      data-light="images/bool-light.png"      src="images/bool-dark.png"      alt="Boolean Algebra">
+          </div>
+        </div>
+        <div class="carousel-dots" id="carousel-dots">
+          <span class="c-dot active"></span>
+          <span class="c-dot"></span>
+          <span class="c-dot"></span>
+          <span class="c-dot"></span>
+          <span class="c-dot"></span>
+          <span class="c-dot"></span>
+          <span class="c-dot"></span>
+          <span class="c-dot"></span>
+          <span class="c-dot"></span>
+          <span class="c-dot"></span>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ==================== VISUALIZERS ==================== -->
+  <section id="visualizers">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-eyebrow">10 visualizers</div>
+        <h2 class="section-title">Every concept,<br>rendered live.</h2>
+        <p class="section-sub">
+          Paste real C# or Java code. Get interactive diagrams back.
+          Built on Roslyn AST, .NET 8, and a Rust/WASM microkernel.
+        </p>
+      </div>
+
+      <!-- ROW 1 -->
+      <div class="viz-row">
+
+        <!-- FLOWCHART -->
+        <div class="viz-card lp-card flow">
+          <div class="lp-icon">&#9654;</div>
+          <div class="lp-title">FLOWCHART</div>
+          <div class="lp-desc">Paste any C# or Java method and instantly generate a control-flow diagram — decision diamonds, loop back-edges, and function call nodes.</div>
+        </div>
+
+        <!-- DATA STRUCTURES -->
+        <div class="viz-card lp-card ds">
+          <div class="lp-icon">&#9783;</div>
+          <div class="lp-title">DATA STRUCTURES</div>
+          <div class="lp-desc">Step through code and watch arrays, linked lists, stacks, queues, and binary trees update on a live heap + stack canvas.</div>
+        </div>
+
+        <!-- OOP -->
+        <div class="viz-card lp-card oop">
+          <div class="lp-icon">&#9671;</div>
+          <div class="lp-title">OOP CONCEPTS</div>
+          <div class="lp-desc">Watch the heap, call stack, and virtual dispatch table update live as your class hierarchy executes. Supports inheritance, polymorphism, and encapsulation.</div>
+        </div>
+
+        <!-- RECURSION -->
+        <div class="viz-card lp-card rec">
+          <div class="lp-icon">&#8635;</div>
+          <div class="lp-title">RECURSION</div>
+          <div class="lp-desc">Trace recursive calls step by step. Watch the call tree grow, inspect each frame's arguments and return values, play/pause/step at any speed.</div>
+        </div>
+
+        <!-- ALGORITHMS -->
+        <div class="viz-card lp-card algo">
+          <div class="lp-icon">&#9660;</div>
+          <div class="lp-title">ALGORITHMS</div>
+          <div class="lp-desc">Watch sorting and searching algorithms animate step by step. Compare two algorithms side-by-side with live operation counters.</div>
+        </div>
+
+      </div><!-- /viz-row 1 -->
+
+      <!-- INLINE EXPAND PANEL -->
+      <div class="viz-expand" id="viz-expand">
+        <div class="viz-expand-inner">
+          <div class="vp-info">
+            <div class="vp-icon" id="vp-icon"></div>
+            <div class="vp-title" id="vp-title">Hover a visualizer</div>
+            <p class="vp-desc" id="vp-desc">Select any card to see a preview.</p>
+          </div>
+          <div class="vp-screen">
+            <img id="vp-img" class="vp-img" alt="">
+            <div class="vp-empty" id="vp-empty"><i class="fa-regular fa-image"></i></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ROW 2 -->
+      <div class="viz-row">
+
+        <!-- COMPLEXITY -->
+        <div class="viz-card lp-card cmp">
+          <div class="lp-icon">&#8734;</div>
+          <div class="lp-title">COMPLEXITY</div>
+          <div class="lp-desc">Paste any code and instantly get its Big O notation, a growth curve graph, and a plain-English explanation of why — powered by GPT-4o-mini.</div>
+        </div>
+
+        <!-- DFOS -->
+        <div class="viz-card lp-card dfos">
+          <div class="lp-icon">&#9881;</div>
+          <div class="lp-title">DFOS — OS CONCEPTS</div>
+          <div class="lp-desc">Explore a live microkernel in your browser. Watch PCB state transitions, CPU scheduling Gantt charts, and physical memory frames — powered by Rust + WebAssembly.</div>
+        </div>
+
+        <!-- AUTOMATA -->
+        <div class="viz-card lp-card aut">
+          <div class="lp-icon">&#8767;</div>
+          <div class="lp-title">AUTOMATA</div>
+          <div class="lp-desc">Build DFAs, NFAs, PDAs, and Turing Machines interactively. Run input strings step-by-step and watch state transitions animate.</div>
+        </div>
+
+        <!-- NUMERICAL -->
+        <div class="viz-card lp-card num">
+          <div class="lp-icon">&#8721;</div>
+          <div class="lp-title">NUMERICAL METHODS</div>
+          <div class="lp-desc">Root-finding, integration, interpolation, ODEs, and linear algebra — visualized with convergence graphs, iteration tables, and interactive zoom/pan.</div>
+        </div>
+
+        <!-- BOOLEAN -->
+        <div class="viz-card lp-card bool">
+          <div class="lp-icon">&#8853;</div>
+          <div class="lp-title">BOOLEAN ALGEBRA</div>
+          <div class="lp-desc">Enter any boolean expression and explore it as a truth table, logic gate circuit, step-by-step simplification, and an interactive 3D Karnaugh map.</div>
+        </div>
+
+      </div><!-- /viz-row 2 -->
+
+      <!-- INLINE EXPAND PANEL — row 2 -->
+      <div class="viz-expand" id="viz-expand-2">
+        <div class="viz-expand-inner">
+          <div class="vp-info">
+            <div class="vp-icon" id="vp-icon-2"></div>
+            <div class="vp-title" id="vp-title-2">Hover a visualizer</div>
+            <p class="vp-desc" id="vp-desc-2">Select any card to see a preview.</p>
+          </div>
+          <div class="vp-screen">
+            <img id="vp-img-2" class="vp-img" alt="">
+            <div class="vp-empty" id="vp-empty-2"><i class="fa-regular fa-image"></i></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==================== FEATURES ==================== -->
+  <section id="features">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-eyebrow">features</div>
+        <h2 class="section-title">Everything you need<br>to understand code.</h2>
+      </div>
+
+      <div class="bento-grid">
+
+        <!-- CS ASSISTANT — large -->
+        <div class="bento-card bento-lg">
+          <div class="bento-label">CS ASSISTANT</div>
+          <h3 class="bento-title">Your built-in AI tutor</h3>
+          <p class="bento-desc">Ask anything about your code. Powered by Ollama running locally — no internet, no API key required.</p>
+          <div class="bento-chat">
+            <div class="bc-row user"><span class="bc-who">you</span><span class="bc-text">How does binary search work?</span></div>
+            <div class="bc-row ai"><span class="bc-who">cs</span><span class="bc-text">Binary search divides a sorted array in half each step, eliminating half the search space every iteration — achieving O(log n) time.</span></div>
+            <div class="bc-row user"><span class="bc-who">you</span><span class="bc-text">Show me on the recursion visualizer</span></div>
+            <div class="bc-row ai"><span class="bc-who">cs</span><span class="bc-text">Opening Recursion Visualizer with BinarySearch.cs<span class="bc-cursor"></span></span></div>
+          </div>
+        </div>
+
+        <!-- QR SHARING -->
+        <div class="bento-card">
+          <div class="bento-label">SHARING</div>
+          <h3 class="bento-title">Share via QR</h3>
+          <p class="bento-desc">Generate a QR code for any visualization in one click. Scan on any device running CS Visualizer.</p>
+          <div class="bento-icon"><i class="fa-solid fa-qrcode"></i></div>
+        </div>
+
+        <!-- GITHUB GISTS -->
+        <div class="bento-card">
+          <div class="bento-label">GITHUB</div>
+          <h3 class="bento-title">Gist Sync</h3>
+          <p class="bento-desc">Save any code snippet to a GitHub Gist in one click and share the link with classmates.</p>
+          <div class="bento-icon"><i class="fa-brands fa-github"></i></div>
+        </div>
+
+        <!-- NOTES -->
+        <div class="bento-card">
+          <div class="bento-label">NOTES</div>
+          <h3 class="bento-title">Floating Notes</h3>
+          <p class="bento-desc">A nano-style text editor that floats alongside any visualizer for annotations and observations.</p>
+          <div class="bento-icon"><i class="fa-solid fa-note-sticky"></i></div>
+        </div>
+
+        <!-- THEME -->
+        <div class="bento-card">
+          <div class="bento-label">APPEARANCE</div>
+          <h3 class="bento-title">Dark &amp; Light Mode</h3>
+          <p class="bento-desc">Switch themes instantly. Every visualizer, diagram, and panel adapts to your preference.</p>
+          <div class="bento-icon"><i class="fa-solid fa-circle-half-stroke"></i></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== DOWNLOAD ==================== -->
+  <section id="download">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-eyebrow">platforms</div>
+        <h2 class="section-title">Available everywhere<br>you code.</h2>
+        <p class="section-sub">
+          Visualize your own code in real time. Powered by a built-in CS assistant.
+        </p>
+      </div>
+
+      <div class="platform-grid">
+
+        <!-- WINDOWS -->
+        <div class="platform-card" data-gsap="card">
+          <span class="plat-logo"><i class="fab fa-windows"></i></span>
+          <h3>Windows</h3>
+        </div>
+
+        <!-- MACOS -->
+        <div class="platform-card" data-gsap="card">
+          <span class="plat-logo"><i class="fab fa-apple"></i></span>
+          <h3>macOS</h3>
+        </div>
+
+        <!-- LINUX -->
+        <div class="platform-card" data-gsap="card">
+          <span class="plat-logo"><i class="fab fa-linux"></i></span>
+          <h3>Linux</h3>
+        </div>
+
+      </div>
+
+      <div class="platform-btn-row">
+        <a href="https://github.com/davidFrucht/CS-Visualizer-Releases/releases/download/latest/CSVisualizer.msi"
+           class="btn-install">
+          <i class="fa-solid fa-download"></i> Download .msi
+        </a>
+        <a href="https://github.com/davidFrucht/CS-Visualizer-Releases/releases/download/latest/CSVisualizer-macOS.zip"
+           class="btn-install">
+          <i class="fa-solid fa-download"></i> Download .app
+        </a>
+        <a href="https://snapcraft.io/cs-visualizer" class="btn-install">
+          <i class="fab fa-linux"></i> Snap Store
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==================== PLUGINS ==================== -->
+  <section id="plugins">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-eyebrow">IDE integration</div>
+        <h2 class="section-title">Right-click any code.<br>Visualize it.</h2>
+        <p class="section-sub">
+          A complete ecosystem inside your favorite tools. Native plugins for every major IDE — visualize code without ever leaving your editor.
+        </p>
+      </div>
+
+      <div class="plugin-expand-wrap" id="plugin-expand-wrap">
+
+        <div class="plugin-cards-col">
+          <div class="plugin-grid">
+
+            <!-- VISUAL STUDIO -->
+            <div class="plugin-card" data-plugin="vs" data-gsap="card">
+              <span class="plugin-icon"><i class="devicon-visualstudio-plain"></i></span>
+              <h3>Visual Studio</h3>
+              <a href="https://marketplace.visualstudio.com/items?itemName=davidfrucht.CSVisualizer" class="btn-install plugin-card-btn" target="_blank">
+                <i class="fa-solid fa-arrow-up-right-from-square"></i> Get from Marketplace
+              </a>
+            </div>
+
+            <!-- VS CODE -->
+            <div class="plugin-card" data-plugin="vscode" data-gsap="card">
+              <span class="plugin-icon"><i class="devicon-vscode-plain"></i></span>
+              <h3>VS Code</h3>
+              <a href="https://marketplace.visualstudio.com/items?itemName=davidfrucht.cs-visualizer" class="btn-install plugin-card-btn" target="_blank">
+                <i class="fa-solid fa-arrow-up-right-from-square"></i> Get from Marketplace
+              </a>
+            </div>
+
+            <!-- JETBRAINS -->
+            <div class="plugin-card" data-plugin="jb" data-gsap="card">
+              <span class="plugin-icon"><i class="devicon-jetbrains-plain"></i></span>
+              <h3>JetBrains</h3>
+              <a href="https://plugins.jetbrains.com/plugin/30991-cs-visualizer/" class="btn-install plugin-card-btn" target="_blank">
+                <i class="fa-solid fa-arrow-up-right-from-square"></i> Get from Marketplace
+              </a>
+            </div>
+
+            <!-- ECLIPSE -->
+            <div class="plugin-card" data-plugin="eclipse" data-gsap="card">
+              <span class="plugin-icon"><i class="devicon-eclipse-plain"></i></span>
+              <h3>Eclipse</h3>
+              <a href="https://github.com/davidFrucht/CS-Visualizer-Releases/releases/download/latest/com.csvisualizer.jar" class="btn-install plugin-card-btn" target="_blank">
+                <i class="fa-solid fa-download"></i> Download Plugin
+              </a>
+            </div>
+
+          </div><!-- /plugin-grid -->
+        </div><!-- /plugin-cards-col -->
+
+        <!-- HORIZONTAL EXPAND PANEL -->
+        <div class="plugin-expand" id="plugin-expand">
+          <div class="plugin-expand-inner">
+            <div class="pe-info">
+              <div class="pe-title" id="pe-title">VS Code</div>
+              <p class="pe-desc" id="pe-desc">Right-click any selection to open it in CS Visualizer.</p>
+            </div>
+            <div class="pe-screen">
+              <img id="pe-img" class="pe-img" alt="">
+              <div class="pe-empty" id="pe-empty"><i class="fa-regular fa-image"></i></div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /plugin-expand-wrap -->
+    </div>
+  </section>
+
+  <!-- ==================== EXTENSIONS ==================== -->
+  <section id="extensions">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-eyebrow">browser extensions</div>
+        <h2 class="section-title">Visualize code<br>on any website.</h2>
+        <p class="section-sub">
+          Browse Stack Overflow, GitHub, or any tutorial site and visualize
+          code snippets instantly — a floating panel opens right on the page.
+        </p>
+      </div>
+
+      <div class="ext-grid">
+
+        <!-- CHROME -->
+        <div class="ext-card" data-ext="chrome" data-gsap="card">
+          <div class="ext-header">
+            <i class="fab fa-chrome ext-icon"></i>
+            <div class="ext-header-text">
+              <h3>Chrome Extension</h3>
+              <span class="ext-meta">Chrome Web Store</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- FIREFOX -->
+        <div class="ext-card" data-ext="firefox" data-gsap="card">
+          <div class="ext-header">
+            <i class="fab fa-firefox-browser ext-icon"></i>
+            <div class="ext-header-text">
+              <h3>Firefox Extension</h3>
+              <span class="ext-meta">Mozilla Add-ons · Listed</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- EDGE -->
+        <div class="ext-card ext-coming-soon" data-gsap="card">
+          <div class="ext-header">
+            <i class="fab fa-edge ext-icon"></i>
+            <div class="ext-header-text">
+              <h3>Edge Extension</h3>
+              <span class="ext-meta">Microsoft Edge Add-ons</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- EXPAND PANEL -->
+      <div class="ext-expand" id="ext-expand">
+        <div class="ext-expand-inner">
+          <div class="vp-info">
+            <div class="vp-icon" id="ext-icon"></div>
+            <div class="vp-title" id="ext-title"></div>
+            <p class="vp-desc" id="ext-desc"></p>
+          </div>
+          <div class="vp-screen">
+            <img id="ext-img" class="vp-img" alt="">
+            <div class="vp-empty"><i class="fa-regular fa-image"></i></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ext-btn-row">
+        <a href="https://github.com/davidFrucht/CS-Visualizer-Releases/releases/download/latest/CSVisualizer-ChromeExtension.zip"
+           class="btn-install" target="_blank">
+          <i class="fab fa-chrome"></i> Add to Chrome
+        </a>
+        <a href="https://addons.mozilla.org/en-US/firefox/addon/cs-visualizer/"
+           class="btn-install" target="_blank">
+          <i class="fab fa-firefox-browser"></i> Add to Firefox
+        </a>
+        <div class="coming-soon-badge">
+          <i class="fa-solid fa-clock"></i> Coming Soon
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer>
+    <div class="footer-bottom">
+      <span>© 2026 David Frucht</span>
+      <div class="footer-links">
+        <a href="#">Terms</a>
+        <a href="#">Privacy</a>
+        <a href="mailto:davidfruc@gmail.com">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==================== CONTACT MODAL ==================== -->
+  <div id="contact-overlay">
+    <div id="contact-box">
+      <div id="contact-header">
+        <span id="contact-title">CONTACT</span>
+        <button id="contact-close">&#10005;</button>
+      </div>
+      <div id="contact-body">
+        <div>
+          <div class="cf-label">NAME</div>
+          <input class="cf-input" id="cf-name" type="text" placeholder="Your name" autocomplete="off">
+        </div>
+        <div>
+          <div class="cf-label">EMAIL</div>
+          <input class="cf-input" id="cf-email" type="email" placeholder="your@email.com" autocomplete="off">
+        </div>
+        <div>
+          <div class="cf-label">MESSAGE</div>
+          <textarea class="cf-textarea" id="cf-message" placeholder="Describe your bug, idea or question..."></textarea>
+        </div>
+        <div id="cf-status"></div>
+        <button id="cf-submit">&#9654; SEND MESSAGE</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== SCRIPTS ==================== -->
+
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <script>if(!/Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)&&window.innerWidth>768)location.replace('index.html');</script>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-9DT79ZE7BD"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-9DT79ZE7BD');
+  </script>
+  <meta name="description" content="CS Visualizer — Real-time visualization of C# and Java code. Flowcharts, recursion trees, OOP diagrams, data structures, Big O analysis, and OS simulation.">
+  <title>CS Visualizer — Real-time Code Visualization</title>
+
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="apple-touch-icon" href="favicon.png">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
+
+  <link rel="stylesheet" href="mobile.css">
+</head>
+<body>
+
+  <!-- ==================== NAV ==================== -->
+  <nav id="navbar">
+    <a href="#" class="nav-logo">
+      <img src="favicon.png" class="nav-logo-mark" alt="CS Visualizer">
+      cs-visualizer
+    </a>
+
+    <div class="nav-right">
+      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+        <i class="fa-solid fa-moon" id="theme-icon"></i>
+      </button>
+      <button class="btn btn-outline" id="contact-btn">Contact</button>
+    </div>
+  </nav>
+
+  <!-- ==================== HERO ==================== -->
+  <section id="hero">
+    <div class="hero-inner">
+      <div class="hero-text">
+        <h1 class="hero-title">
+          Every<br>
+          algorithm,<br>
+          <span class="hl">visualized.</span>
+        </h1>
+
+        <div class="hero-langs">
+          <span class="hero-langs-label">Supports</span>
+          <div class="hero-lang-item">
+            <i class="devicon-csharp-plain"></i>
+            <span>C#</span>
+          </div>
+          <div class="hero-lang-item">
+            <i class="devicon-java-plain"></i>
+            <span>Java</span>
+          </div>
+          <div class="hero-lang-item hero-lang-item--soon">
+            <i class="devicon-python-plain"></i>
+            <span>Python</span>
+            <span class="lang-coming-soon">Soon</span>
+          </div>
+        </div>
+
+        <p class="hero-sub">
+          Paste your code — get flowcharts, recursion trees, OOP diagrams,
+          and more. Live inside VS Code, JetBrains, and Visual Studio.
+        </p>
+      </div>
+
+      <div class="hero-video">
+        <video autoplay muted loop playsinline>
+          <source src="videos/cs-visualizor-dark.mp4" type="video/mp4">
+        </video>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== VISUALIZERS (CAROUSEL) ==================== -->
+  <section id="visualizers">
+    <div class="section-header">
+      <div class="section-eyebrow">10 visualizers</div>
+      <h2 class="section-title">Every concept,<br>rendered live.</h2>
+      <p class="section-sub">
+        Paste real C# or Java code. Get interactive diagrams back.
+      </p>
+    </div>
+
+    <div class="carousel-hint">
+      <i class="fa-solid fa-hand-pointer"></i> Tap to preview &nbsp;&middot;&nbsp; Swipe to browse
+    </div>
+
+    <div class="viz-carousel" id="viz-carousel">
+      <div class="viz-carousel-track" id="viz-carousel-track">
+
+        <div class="viz-card" data-viz="flow">
+          <div class="viz-icon">&#9654;</div>
+          <div class="viz-title">FLOWCHART</div>
+          <div class="viz-desc">Generate control-flow diagrams from any method instantly.</div>
+        </div>
+
+        <div class="viz-card" data-viz="ds">
+          <div class="viz-icon">&#9783;</div>
+          <div class="viz-title">DATA STRUCTURES</div>
+          <div class="viz-desc">Watch arrays, linked lists, trees, stacks and queues update live.</div>
+        </div>
+
+        <div class="viz-card" data-viz="oop">
+          <div class="viz-icon">&#9671;</div>
+          <div class="viz-title">OOP CONCEPTS</div>
+          <div class="viz-desc">See inheritance, polymorphism, and virtual dispatch in action.</div>
+        </div>
+
+        <div class="viz-card" data-viz="rec">
+          <div class="viz-icon">&#8635;</div>
+          <div class="viz-title">RECURSION</div>
+          <div class="viz-desc">Watch the call tree grow and trace return values frame by frame.</div>
+        </div>
+
+        <div class="viz-card" data-viz="algo">
+          <div class="viz-icon">&#9660;</div>
+          <div class="viz-title">ALGORITHMS</div>
+          <div class="viz-desc">Animate sorting and searching algorithms with side-by-side compare.</div>
+        </div>
+
+        <div class="viz-card" data-viz="cmp">
+          <div class="viz-icon">&#8734;</div>
+          <div class="viz-title">COMPLEXITY</div>
+          <div class="viz-desc">Get Big O notation, growth curves, and plain-English explanations.</div>
+        </div>
+
+        <div class="viz-card" data-viz="dfos">
+          <div class="viz-icon">&#9881;</div>
+          <div class="viz-title">DFOS — OS CONCEPTS</div>
+          <div class="viz-desc">A live Rust microkernel — PCB states, scheduling, and memory frames.</div>
+        </div>
+
+        <div class="viz-card" data-viz="aut">
+          <div class="viz-icon">&#8767;</div>
+          <div class="viz-title">AUTOMATA</div>
+          <div class="viz-desc">Build and run DFAs, NFAs, PDAs, and Turing Machines interactively.</div>
+        </div>
+
+        <div class="viz-card" data-viz="num">
+          <div class="viz-icon">&#8721;</div>
+          <div class="viz-title">NUMERICAL METHODS</div>
+          <div class="viz-desc">Visualize root-finding, integration, ODEs, and linear algebra.</div>
+        </div>
+
+        <div class="viz-card" data-viz="bool">
+          <div class="viz-icon">&#8853;</div>
+          <div class="viz-title">BOOLEAN ALGEBRA</div>
+          <div class="viz-desc">Truth tables, logic gates, simplification, and 3D Karnaugh maps.</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Carousel dots -->
+    <div class="carousel-dots" id="carousel-dots"></div>
+
+  </section>
+
+  <!-- Preview panel (shown on tap — outside section to avoid z-index trap) -->
+  <div class="viz-preview" id="viz-preview">
+    <div class="viz-preview-inner">
+      <button class="vp-close" id="vp-close"><i class="fa-solid fa-xmark"></i></button>
+      <div class="vp-info">
+        <div class="vp-icon" id="vp-icon"></div>
+        <div class="vp-title" id="vp-title"></div>
+        <p class="vp-desc" id="vp-desc"></p>
+      </div>
+      <div class="vp-screen">
+        <img id="vp-img" class="vp-img" alt="">
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== PLATFORMS ==================== -->
+  <section id="platforms">
+    <div class="section-header">
+      <div class="section-eyebrow">platforms</div>
+      <h2 class="section-title">Available everywhere<br>you code.</h2>
+      <p class="section-sub">
+        Visualize your own code in real time. Powered by a built-in CS assistant.
+      </p>
+    </div>
+
+    <div class="platform-grid">
+      <div class="platform-card">
+        <span class="plat-logo"><i class="fab fa-windows"></i></span>
+        <h3>Windows</h3>
+      </div>
+      <div class="platform-card">
+        <span class="plat-logo"><i class="fab fa-apple"></i></span>
+        <h3>macOS</h3>
+      </div>
+      <div class="platform-card">
+        <span class="plat-logo"><i class="fab fa-linux"></i></span>
+        <h3>Linux</h3>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== PLUGINS ==================== -->
+  <section id="plugins">
+    <div class="section-header">
+      <div class="section-eyebrow">IDE integration</div>
+      <h2 class="section-title">Right-click any code.<br>Visualize it.</h2>
+      <p class="section-sub">
+        Native plugins for every major IDE — visualize code without ever leaving your editor.
+      </p>
+    </div>
+
+    <div class="plugin-grid">
+      <div class="plugin-card">
+        <span class="plugin-icon"><i class="devicon-visualstudio-plain"></i></span>
+        <h3>Visual Studio</h3>
+      </div>
+      <div class="plugin-card">
+        <span class="plugin-icon"><i class="devicon-vscode-plain"></i></span>
+        <h3>VS Code</h3>
+      </div>
+      <div class="plugin-card">
+        <span class="plugin-icon"><i class="devicon-jetbrains-plain"></i></span>
+        <h3>JetBrains</h3>
+      </div>
+      <div class="plugin-card">
+        <span class="plugin-icon"><i class="devicon-eclipse-plain"></i></span>
+        <h3>Eclipse</h3>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== EXTENSIONS ==================== -->
+  <section id="extensions">
+    <div class="section-header">
+      <div class="section-eyebrow">browser extensions</div>
+      <h2 class="section-title">Visualize code<br>on any website.</h2>
+      <p class="section-sub">
+        Browse Stack Overflow, GitHub, or any tutorial site and visualize
+        code snippets instantly.
+      </p>
+    </div>
+
+    <div class="ext-grid">
+      <div class="ext-card">
+        <div class="ext-header">
+          <i class="fab fa-chrome ext-icon"></i>
+          <div class="ext-header-text">
+            <h3>Chrome</h3>
+            <span class="ext-meta">Chrome Web Store</span>
+          </div>
+        </div>
+      </div>
+      <div class="ext-card">
+        <div class="ext-header">
+          <i class="fab fa-firefox-browser ext-icon"></i>
+          <div class="ext-header-text">
+            <h3>Firefox</h3>
+            <span class="ext-meta">Mozilla Add-ons</span>
+          </div>
+        </div>
+      </div>
+      <div class="ext-card ext-coming-soon">
+        <div class="ext-header">
+          <i class="fab fa-edge ext-icon"></i>
+          <div class="ext-header-text">
+            <h3>Edge</h3>
+            <span class="ext-meta">Coming Soon</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer>
+    <div class="footer-bottom">
+      <span>&copy; 2026 David Frucht</span>
+      <div class="footer-links">
+        <a href="#">Terms</a>
+        <a href="#">Privacy</a>
+        <a href="mailto:davidfruc@gmail.com">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==================== CONTACT MODAL ==================== -->
+  <div id="contact-overlay">
+    <div id="contact-box">
+      <div id="contact-header">
+        <span id="contact-title">CONTACT</span>
+        <button id="contact-close">&#10005;</button>
+      </div>
+      <div id="contact-body">
+        <div>
+          <div class="cf-label">NAME</div>
+          <input class="cf-input" id="cf-name" type="text" placeholder="Your name" autocomplete="off">
+        </div>
+        <div>
+          <div class="cf-label">EMAIL</div>
+          <input class="cf-input" id="cf-email" type="email" placeholder="your@email.com" autocomplete="off">
+        </div>
+        <div>
+          <div class="cf-label">MESSAGE</div>
+          <textarea class="cf-textarea" id="cf-message" placeholder="Describe your bug, idea or question..."></textarea>
+        </div>
+        <div id="cf-status"></div>
+        <button id="cf-submit">&#9654; SEND MESSAGE</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== SCRIPTS ==================== -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script src="mobile.js"></script>
+</body>
+</html>

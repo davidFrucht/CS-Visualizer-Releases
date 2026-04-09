@@ -1,1 +1,1054 @@
-Eclipse Update Site
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script>if(/Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)||window.innerWidth<=768)location.replace('mobile.html');</script>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-9DT79ZE7BD"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-9DT79ZE7BD');
+  </script>
+  <meta name="description" content="CS Visualizer — Real-time visualization of C# and Java code. Flowcharts, recursion trees, OOP diagrams, data structures, Big O analysis, and OS simulation.">
+  <title>CS Visualizer — Real-time Code Visualization</title>
+
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="apple-touch-icon" href="favicon.png">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600;700;800;900&family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ==================== NAV ==================== -->
+  <nav id="navbar">
+    <a href="#" class="nav-logo">
+      <img src="favicon.png" class="nav-logo-mark" alt="CS Visualizer">
+      cs-visualizer
+    </a>
+
+    <ul class="nav-links">
+      <li><a href="#testit">Try it</a></li>
+      <li><a href="#visualizers">Visualizers</a></li>
+      <li><a href="#download">Download</a></li>
+      <li><a href="#plugins">IDE Plugins</a></li>
+      <li><a href="#extensions">Extensions</a></li>
+    </ul>
+
+    <div class="nav-right">
+      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+        <i class="fa-solid fa-moon" id="theme-icon"></i>
+      </button>
+      <button class="btn btn-outline" id="contact-btn">Contact</button>
+      <a href="#download" class="btn btn-primary">Download</a>
+    </div>
+  </nav>
+
+  <!-- ==================== HERO ==================== -->
+  <section id="hero">
+    <canvas id="hero-canvas"></canvas>
+
+    <div class="hero-inner">
+      <div class="hero-left">
+        <h1 class="hero-title" id="hero-title">
+          Every<br>
+          algorithm,<br>
+          <span class="hl">visualized.</span>
+        </h1>
+
+        <div class="hero-langs">
+          <span class="hero-langs-label">Supports</span>
+          <div class="hero-lang-item">
+            <i class="devicon-csharp-plain"></i>
+            <span>C#</span>
+          </div>
+          <div class="hero-lang-item">
+            <i class="devicon-java-plain"></i>
+            <span>Java</span>
+          </div>
+          <div class="hero-lang-item hero-lang-item--soon">
+            <i class="devicon-python-plain"></i>
+            <span>Python</span>
+            <span class="lang-coming-soon">Soon</span>
+          </div>
+        </div>
+
+        <p class="hero-sub" id="hero-sub">
+          Paste your code — get flowcharts, recursion trees, OOP diagrams,
+          and more. Live inside VS Code, JetBrains, and Visual Studio.
+        </p>
+
+        <div class="hero-actions" id="hero-actions">
+          <a href="#download" class="btn btn-primary btn-lg">
+            <i class="fa-solid fa-arrow-down"></i> Download Free
+          </a>
+          <a href="#visualizers" class="btn btn-outline btn-lg">
+            Explore visualizers →
+          </a>
+        </div>
+
+      </div>
+
+      <div class="hero-right" id="hero-right">
+        <video
+          autoplay
+          muted
+          playsinline>
+          <source src="videos/cs-visualizor-dark.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ==================== TEST IT ==================== -->
+  <section id="testit">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-eyebrow">try it now</div>
+        <h2 class="section-title">See it in action.</h2>
+        <p class="section-sub">
+          This is exactly what the app looks like. Click any card to try a live demo.
+        </p>
+      </div>
+
+      <div class="browser-frame">
+        <div class="browser-bar">
+          <div class="browser-dots">
+            <span class="bdot red"></span>
+            <span class="bdot yellow"></span>
+            <span class="bdot green"></span>
+          </div>
+          <div class="browser-url">
+            <i class="fa-solid fa-lock"></i>
+            <span>localhost:8080</span>
+          </div>
+        </div>
+
+        <div class="browser-body">
+          <div class="app-title">
+            <h2>CS VISUALIZER</h2>
+            <p>Visualize It. Get It.</p>
+          </div>
+
+          <div class="app-cards">
+
+            <a class="app-card app-flow" href="#">
+              <div class="app-card-icon">&#9654;</div>
+              <div class="app-card-title">FLOWCHART</div>
+              <div class="app-card-desc">Paste any C# method and instantly generate a flowchart with decision diamonds and back edges for loops.</div>
+              <div class="app-card-tags">
+                <span class="app-tag app-tag-flow">CONTROL FLOW</span>
+                <span class="app-tag app-tag-flow">DIAGRAMS</span>
+              </div>
+              <div class="app-card-arrow">Open &#8594;</div>
+            </a>
+
+            <a class="app-card app-ds" href="#">
+              <div class="app-card-icon">&#9783;</div>
+              <div class="app-card-title">DATA STRUCTURES</div>
+              <div class="app-card-desc">Visualize arrays, linked lists, stacks, queues, trees and more. Step through code in real time.</div>
+              <div class="app-card-tags">
+                <span class="app-tag app-tag-ds">ARRAYS</span>
+                <span class="app-tag app-tag-ds">LINKED LIST</span>
+                <span class="app-tag app-tag-ds">TREE</span>
+              </div>
+              <div class="app-card-arrow">Open &#8594;</div>
+            </a>
+
+            <a class="app-card app-oop" href="#">
+              <div class="app-card-icon">&#9671;</div>
+              <div class="app-card-title">OOP CONCEPTS</div>
+              <div class="app-card-desc">Explore classes, inheritance, encapsulation and polymorphism. Watch the heap and call stack live.</div>
+              <div class="app-card-tags">
+                <span class="app-tag app-tag-oop">INHERITANCE</span>
+                <span class="app-tag app-tag-oop">POLYMORPHISM</span>
+              </div>
+              <div class="app-card-arrow">Open &#8594;</div>
+            </a>
+
+            <a class="app-card app-rec" href="#">
+              <div class="app-card-icon">&#8635;</div>
+              <div class="app-card-title">RECURSION</div>
+              <div class="app-card-desc">Trace recursive calls step by step. Watch the call tree grow and inspect each frame's values.</div>
+              <div class="app-card-tags">
+                <span class="app-tag app-tag-rec">CALL TREE</span>
+                <span class="app-tag app-tag-rec">STACK FRAMES</span>
+              </div>
+              <div class="app-card-arrow">Open &#8594;</div>
+            </a>
+
+            <a class="app-card app-algo" href="#">
+              <div class="app-card-icon">&#9660;</div>
+              <div class="app-card-title">ALGORITHMS</div>
+              <div class="app-card-desc">Watch sorting and searching algorithms animate step by step. Compare speeds and count operations.</div>
+              <div class="app-card-tags">
+                <span class="app-tag app-tag-algo">BUBBLE</span>
+                <span class="app-tag app-tag-algo">MERGE</span>
+                <span class="app-tag app-tag-algo">QUICK</span>
+              </div>
+              <div class="app-card-arrow">Open &#8594;</div>
+            </a>
+
+            <a class="app-card app-cmp" href="#">
+              <div class="app-card-icon">&#8734;</div>
+              <div class="app-card-title">COMPLEXITY</div>
+              <div class="app-card-desc">Paste any code and instantly see its Big O notation with a growth curve graph.</div>
+              <div class="app-card-tags">
+                <span class="app-tag app-tag-cmp">O(1)</span>
+                <span class="app-tag app-tag-cmp">O(n)</span>
+                <span class="app-tag app-tag-cmp">O(n&sup2;)</span>
+              </div>
+              <div class="app-card-arrow">Open &#8594;</div>
+            </a>
+
+            <a class="app-card app-dfos" href="#">
+              <div class="app-card-icon">&#9881;</div>
+              <div class="app-card-title">DFOS — OS CONCEPTS</div>
+              <div class="app-card-desc">Explore a live microkernel. PCB state transitions, CPU scheduling, and memory frames.</div>
+              <div class="app-card-tags">
+                <span class="app-tag app-tag-dfos">PROCESSES</span>
+                <span class="app-tag app-tag-dfos">SCHEDULING</span>
+              </div>
+              <div class="app-card-arrow">Open &#8594;</div>
+            </a>
+
+            <a class="app-card app-aut" href="#">
+              <div class="app-card-icon">&#8767;</div>
+              <div class="app-card-title">AUTOMATA</div>
+              <div class="app-card-desc">Build DFAs, NFAs, PDAs, and Turing Machines. Run input strings and watch state transitions.</div>
+              <div class="app-card-tags">
+                <span class="app-tag app-tag-aut">DFA</span>
+                <span class="app-tag app-tag-aut">NFA</span>
+                <span class="app-tag app-tag-aut">TURING</span>
+              </div>
+              <div class="app-card-arrow">Open &#8594;</div>
+            </a>
+
+            <a class="app-card app-num" href="#">
+              <div class="app-card-icon">&#8721;</div>
+              <div class="app-card-title">NUMERICAL METHODS</div>
+              <div class="app-card-desc">Root-finding, integration, interpolation, ODEs — with convergence graphs and iteration tables.</div>
+              <div class="app-card-tags">
+                <span class="app-tag app-tag-num">ROOT FINDING</span>
+                <span class="app-tag app-tag-num">ODEs</span>
+              </div>
+              <div class="app-card-arrow">Open &#8594;</div>
+            </a>
+
+            <a class="app-card app-bool" href="#">
+              <div class="app-card-icon">&#8853;</div>
+              <div class="app-card-title">BOOLEAN ALGEBRA</div>
+              <div class="app-card-desc">Truth tables, logic gate circuits, step-by-step simplification, and interactive 3D K-map.</div>
+              <div class="app-card-tags">
+                <span class="app-tag app-tag-bool">TRUTH TABLE</span>
+                <span class="app-tag app-tag-bool">K-MAP 3D</span>
+              </div>
+              <div class="app-card-arrow">Open &#8594;</div>
+            </a>
+
+          </div>
+
+          <div class="app-footer">C# &nbsp;&#183;&nbsp; Roslyn &nbsp;&#183;&nbsp; .NET 8 &nbsp;&#183;&nbsp; Rust &nbsp;&#183;&nbsp; WebAssembly</div>
+
+          <!-- FLOWCHART DEMO VIEW (hidden by default) -->
+          <div class="demo-view" id="demo-flow" style="display:none;">
+            <div class="demo-topbar">
+              <button class="demo-back" id="demo-back-btn">&#8592; Back</button>
+              <span class="demo-topbar-title">FLOWCHART VISUALIZER</span>
+            </div>
+            <div class="demo-split">
+              <div class="demo-code-panel">
+                <div class="demo-code-header">FindMax.cs</div>
+                <pre class="demo-code" id="demo-code"><code><span class="line" data-line="1"><span class="kw">static</span> <span class="kw">int</span> <span class="fn">FindMax</span>(<span class="kw">int</span>[] arr)</span>
+<span class="line" data-line="2">{</span>
+<span class="line" data-line="3">    <span class="kw">int</span> max = arr[<span class="num">0</span>];</span>
+<span class="line" data-line="4">    <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">1</span>; i &lt; arr.Length; i++)</span>
+<span class="line" data-line="5">    {</span>
+<span class="line" data-line="6">        <span class="kw">if</span> (arr[i] &gt; max)</span>
+<span class="line" data-line="7">        {</span>
+<span class="line" data-line="8">            max = arr[i];</span>
+<span class="line" data-line="9">        }</span>
+<span class="line" data-line="10">    }</span>
+<span class="line" data-line="11">    <span class="kw">return</span> max;</span>
+<span class="line" data-line="12">}</span></code></pre>
+                <div class="demo-vars" id="demo-vars">
+                  <div class="demo-vars-title">VARIABLES</div>
+                  <div class="demo-vars-body" id="demo-vars-body">—</div>
+                </div>
+              </div>
+              <div class="demo-graph-panel">
+                <div class="demo-toolbar">
+                  <button class="demo-btn" id="demo-reset" title="Reset">&#8634; RESET</button>
+                  <button class="demo-btn" id="demo-prev" title="Previous">&#9664; PREV</button>
+                  <button class="demo-btn" id="demo-step" title="Step">STEP &#9654;</button>
+                  <button class="demo-btn demo-play-btn" id="demo-play" title="Play">&#9654; PLAY</button>
+                  <button class="demo-btn" id="demo-fit" title="Fit">FIT</button>
+                </div>
+                <div id="demo-cy"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- BOOLEAN ALGEBRA DEMO VIEW -->
+          <div class="demo-view" id="demo-bool" style="display:none;">
+            <div class="demo-topbar">
+              <button class="demo-back" id="demo-bool-back">&#8592; Back</button>
+              <span class="demo-topbar-title" style="color:#a855f7;">BOOLEAN ALGEBRA</span>
+              <div class="ds-tabs" id="bool-tabs">
+                <button class="ds-tab active" data-bool="truth">Truth Table</button>
+                <button class="ds-tab" data-bool="gates">Logic Gates</button>
+                <button class="ds-tab" data-bool="kmap">K-Map</button>
+                <button class="ds-tab" data-bool="simplify">Simplify</button>
+              </div>
+            </div>
+            <div class="demo-split">
+              <div class="demo-code-panel" style="width:240px;">
+                <div class="demo-code-header">Expression</div>
+                <div class="demo-vars">
+                  <div class="demo-vars-title">INPUT</div>
+                  <div class="demo-vars-body" style="font-size:14px;color:#a855f7;line-height:2;">
+                    (A ∧ B) ∨ (A ∧ C)
+                  </div>
+                </div>
+                <div class="demo-vars" style="border-top:1px solid #2a2a45;">
+                  <div class="demo-vars-title">VARIABLES</div>
+                  <div class="demo-vars-body">A, B, C</div>
+                </div>
+                <div class="demo-vars" style="border-top:1px solid #2a2a45;">
+                  <div class="demo-vars-title">SIMPLIFIED</div>
+                  <div class="demo-vars-body" style="color:#00ff9d;font-size:13px;">
+                    A ∧ (B ∨ C)
+                  </div>
+                </div>
+                <div class="demo-vars" style="border-top:1px solid #2a2a45;">
+                  <div class="demo-vars-title">MINTERMS</div>
+                  <div class="demo-vars-body" id="bool-minterms">Σm(3, 5, 6, 7)</div>
+                </div>
+              </div>
+              <div class="demo-graph-panel">
+                <div class="demo-toolbar">
+                  <span style="font-family:'Share Tech Mono',monospace;font-size:10px;color:#7a8ab0;">f = (A ∧ B) ∨ (A ∧ C)</span>
+                </div>
+                <div class="ds-canvas" id="bool-canvas" style="justify-content:center;overflow:auto;"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- NUMERICAL METHODS DEMO VIEW -->
+          <div class="demo-view" id="demo-num" style="display:none;">
+            <div class="demo-topbar">
+              <button class="demo-back" id="demo-num-back">&#8592; Back</button>
+              <span class="demo-topbar-title" style="color:#f59e0b;">NUMERICAL METHODS</span>
+              <span style="font-family:'Share Tech Mono',monospace;font-size:10px;color:#7a8ab0;margin-left:auto;">Newton-Raphson · f(x) = x³ − x − 2</span>
+            </div>
+            <div class="demo-split">
+              <div class="demo-code-panel" style="width:260px;">
+                <div class="demo-code-header">Newton-Raphson</div>
+                <div class="demo-vars">
+                  <div class="demo-vars-title">METHOD</div>
+                  <div class="demo-vars-body" style="line-height:2;">
+                    <span style="color:#f59e0b;font-size:13px;">xₙ₊₁ = xₙ − f(xₙ) / f'(xₙ)</span>
+                  </div>
+                </div>
+                <div class="demo-vars" style="border-top:1px solid #2a2a45;">
+                  <div class="demo-vars-title">FUNCTION</div>
+                  <div class="demo-vars-body" style="line-height:1.8;">
+                    <span class="var-name">f(x)</span> = <span class="var-value">x³ − x − 2</span><br>
+                    <span class="var-name">f'(x)</span> = <span class="var-value">3x² − 1</span><br>
+                    <span class="var-name">x₀</span> = <span class="var-value">3.0</span>
+                  </div>
+                </div>
+                <div class="demo-vars" style="border-top:1px solid #2a2a45;">
+                  <div class="demo-vars-title">ITERATIONS</div>
+                  <div class="demo-vars-body" id="num-table" style="font-size:10px;line-height:1.9;">—</div>
+                </div>
+              </div>
+              <div class="demo-graph-panel">
+                <div class="demo-toolbar">
+                  <button class="demo-btn" id="num-reset">&#8634; RESET</button>
+                  <button class="demo-btn" id="num-prev">&#9664; PREV</button>
+                  <button class="demo-btn" id="num-step">STEP &#9654;</button>
+                  <button class="demo-btn demo-play-btn" id="num-play">&#9654; PLAY</button>
+                  <span class="demo-step-counter" id="num-counter">—</span>
+                </div>
+                <div class="ds-canvas" id="num-canvas" style="justify-content:center;"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- AUTOMATA DEMO VIEW -->
+          <div class="demo-view" id="demo-aut" style="display:none;">
+            <div class="demo-topbar">
+              <button class="demo-back" id="demo-aut-back">&#8592; Back</button>
+              <span class="demo-topbar-title" style="color:#a78bfa;">AUTOMATA</span>
+              <span style="font-family:'Share Tech Mono',monospace;font-size:10px;color:#7a8ab0;margin-left:auto;">DFA — accepts strings ending in 01</span>
+            </div>
+            <div class="demo-split">
+              <div class="demo-code-panel" style="width:220px;">
+                <div class="demo-code-header">Definition</div>
+                <div class="demo-vars">
+                  <div class="demo-vars-title">STATES</div>
+                  <div class="demo-vars-body" id="aut-states">
+                    <span class="var-name">q0</span> — initial<br>
+                    <span class="var-name">q1</span> — saw 0<br>
+                    <span class="var-name">q2</span> — accept ★
+                  </div>
+                </div>
+                <div class="demo-vars" style="border-top:1px solid #2a2a45;">
+                  <div class="demo-vars-title">ALPHABET</div>
+                  <div class="demo-vars-body">{0, 1}</div>
+                </div>
+                <div class="demo-vars" style="border-top:1px solid #2a2a45;">
+                  <div class="demo-vars-title">INPUT</div>
+                  <div class="demo-vars-body" id="aut-tape"></div>
+                </div>
+                <div class="demo-vars" style="border-top:1px solid #2a2a45;">
+                  <div class="demo-vars-title">LOG</div>
+                  <div class="demo-vars-body" id="aut-log">—</div>
+                </div>
+              </div>
+              <div class="demo-graph-panel">
+                <div class="demo-toolbar">
+                  <button class="demo-btn" id="aut-reset">&#8634; RESET</button>
+                  <button class="demo-btn" id="aut-prev">&#9664; PREV</button>
+                  <button class="demo-btn" id="aut-step">STEP &#9654;</button>
+                  <button class="demo-btn demo-play-btn" id="aut-play">&#9654; PLAY</button>
+                  <span class="demo-step-counter" id="aut-counter">—</span>
+                </div>
+                <div class="ds-canvas" id="aut-canvas" style="justify-content:center;"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- DFOS DEMO VIEW -->
+          <div class="demo-view" id="demo-dfos" style="display:none;">
+            <div class="demo-topbar">
+              <button class="demo-back" id="demo-dfos-back">&#8592; Back</button>
+              <span class="demo-topbar-title" style="color:#ff6b35;">DFOS — OS CONCEPTS</span>
+              <div class="ds-tabs" id="dfos-tabs">
+                <button class="ds-tab active" data-dfos="pcb">PCB States</button>
+                <button class="ds-tab" data-dfos="gantt">Gantt Chart</button>
+                <button class="ds-tab" data-dfos="mem">Memory</button>
+              </div>
+            </div>
+            <div class="demo-split">
+              <div class="demo-code-panel" style="width:240px;">
+                <div class="demo-code-header">Round Robin (q=3)</div>
+                <div class="demo-vars">
+                  <div class="demo-vars-title">PROCESSES</div>
+                  <div class="demo-vars-body" id="dfos-procs">—</div>
+                </div>
+                <div class="demo-vars" style="border-top:1px solid #2a2a45;">
+                  <div class="demo-vars-title">SCHEDULER</div>
+                  <div class="demo-vars-body" id="dfos-info">—</div>
+                </div>
+              </div>
+              <div class="demo-graph-panel">
+                <div class="demo-toolbar">
+                  <button class="demo-btn" id="dfos-reset">&#8634; RESET</button>
+                  <button class="demo-btn" id="dfos-prev">&#9664; PREV</button>
+                  <button class="demo-btn" id="dfos-step">STEP &#9654;</button>
+                  <button class="demo-btn demo-play-btn" id="dfos-play">&#9654; PLAY</button>
+                  <span class="demo-step-counter" id="dfos-counter">—</span>
+                </div>
+                <div class="ds-canvas" id="dfos-canvas" style="align-items:flex-start;justify-content:center;padding:20px;"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- COMPLEXITY DEMO VIEW -->
+          <div class="demo-view" id="demo-cmp" style="display:none;">
+            <div class="demo-topbar">
+              <button class="demo-back" id="demo-cmp-back">&#8592; Back</button>
+              <span class="demo-topbar-title" style="color:#00ff9d;">COMPLEXITY ANALYZER</span>
+              <div class="ds-tabs" id="cmp-tabs">
+                <button class="ds-tab active" data-cmp="time">Time</button>
+                <button class="ds-tab" data-cmp="space">Space</button>
+                <button class="ds-tab" data-cmp="compare">Compare</button>
+              </div>
+            </div>
+            <div class="demo-split">
+              <div class="demo-code-panel">
+                <div class="demo-code-header" id="cmp-code-header">BubbleSort.cs</div>
+                <pre class="demo-code" id="cmp-code"></pre>
+              </div>
+              <div class="demo-graph-panel" style="overflow-y:auto;">
+                <div class="cmp-result" id="cmp-result"></div>
+                <div class="ds-canvas" id="cmp-graph" style="min-height:280px;padding:16px;align-items:flex-start;justify-content:flex-start;"></div>
+                <div class="cmp-slider-row" id="cmp-slider-row"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ALGORITHMS DEMO VIEW -->
+          <div class="demo-view" id="demo-algo" style="display:none;">
+            <div class="demo-topbar">
+              <button class="demo-back" id="demo-algo-back">&#8592; Back</button>
+              <span class="demo-topbar-title" style="color:var(--app-accent);">ALGORITHMS</span>
+              <div class="ds-tabs" id="algo-tabs">
+                <button class="ds-tab active" data-algo="bubble">Bubble</button>
+                <button class="ds-tab" data-algo="selection">Selection</button>
+                <button class="ds-tab" data-algo="insertion">Insertion</button>
+                <button class="ds-tab" data-algo="merge">Merge</button>
+                <button class="ds-tab" data-algo="quick">Quick</button>
+                <button class="ds-tab" data-algo="binary">Binary Search</button>
+                <button class="ds-tab" data-algo="dijkstra">Dijkstra</button>
+              </div>
+            </div>
+            <div class="demo-split">
+              <div class="demo-code-panel" style="width:260px;">
+                <div class="demo-code-header" id="algo-header">Bubble Sort</div>
+                <div class="demo-vars" style="flex:1;">
+                  <div class="demo-vars-title">OPERATION</div>
+                  <div class="demo-vars-body" id="algo-desc">—</div>
+                </div>
+                <div class="demo-vars" style="border-top:1px solid #2a2a45;">
+                  <div class="demo-vars-title">STATS</div>
+                  <div class="demo-vars-body" id="algo-stats">—</div>
+                </div>
+                <div class="demo-vars" style="border-top:1px solid #2a2a45;">
+                  <div class="demo-vars-title">LEGEND</div>
+                  <div class="demo-vars-body" id="algo-legend">
+                    <span style="color:#00d4ff;">&#9632;</span> comparing &nbsp;
+                    <span style="color:#ff9d00;">&#9632;</span> swapping<br>
+                    <span style="color:#00ff9d;">&#9632;</span> sorted &nbsp;
+                    <span style="color:#7b2fff;">&#9632;</span> pivot
+                  </div>
+                </div>
+              </div>
+              <div class="demo-graph-panel">
+                <div class="demo-toolbar">
+                  <button class="demo-btn" id="algo-reset">&#8634; RESET</button>
+                  <button class="demo-btn" id="algo-prev">&#9664; PREV</button>
+                  <button class="demo-btn" id="algo-step">STEP &#9654;</button>
+                  <button class="demo-btn demo-play-btn" id="algo-play">&#9654; PLAY</button>
+                  <span class="demo-step-counter" id="algo-counter">—</span>
+                </div>
+                <div class="algo-bars-wrap" id="algo-bars"></div>
+                <div class="ds-canvas" id="algo-graph" style="display:none;"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- RECURSION DEMO VIEW -->
+          <div class="demo-view" id="demo-rec" style="display:none;">
+            <div class="demo-topbar">
+              <button class="demo-back" id="demo-rec-back">&#8592; Back</button>
+              <span class="demo-topbar-title" style="color:#ff9d00;">RECURSION</span>
+            </div>
+            <div class="demo-split">
+              <div class="demo-code-panel">
+                <div class="demo-code-header">Fibonacci.cs</div>
+                <pre class="demo-code" id="rec-code"><code><span class="line" data-line="1"><span class="kw">static int</span> <span class="fn">Fib</span>(<span class="kw">int</span> n)</span>
+<span class="line" data-line="2">{</span>
+<span class="line" data-line="3">    <span class="kw">if</span> (n &lt;= <span class="num">1</span>)</span>
+<span class="line" data-line="4">        <span class="kw">return</span> n;</span>
+<span class="line" data-line="5">    <span class="kw">return</span> <span class="fn">Fib</span>(n-<span class="num">1</span>) + <span class="fn">Fib</span>(n-<span class="num">2</span>);</span>
+<span class="line" data-line="6">}</span></code></pre>
+                <div class="demo-vars">
+                  <div class="demo-vars-title">CALL STACK</div>
+                  <div class="demo-vars-body" id="rec-stack">—</div>
+                </div>
+                <div class="demo-vars" style="border-top:1px solid #2a2a45;">
+                  <div class="demo-vars-title">STATS</div>
+                  <div class="demo-vars-body" id="rec-stats">—</div>
+                </div>
+              </div>
+              <div class="demo-graph-panel">
+                <div class="demo-toolbar">
+                  <button class="demo-btn" id="rec-reset">&#8634; RESET</button>
+                  <button class="demo-btn" id="rec-prev">&#9664; PREV</button>
+                  <button class="demo-btn" id="rec-step">STEP &#9654;</button>
+                  <button class="demo-btn demo-play-btn" id="rec-play">&#9654; PLAY</button>
+                  <span class="demo-step-counter" id="rec-counter">—</span>
+                  <div class="rec-legend">
+                    <span class="rec-leg-item" style="border-color:#00d4ff;">active</span>
+                    <span class="rec-leg-item" style="border-color:#336688;">waiting</span>
+                    <span class="rec-leg-item" style="border-color:#00ff9d;">base</span>
+                    <span class="rec-leg-item" style="border-color:#7b2fff;">returned</span>
+                  </div>
+                </div>
+                <div class="ds-canvas" id="rec-canvas" style="align-items:flex-start;padding-top:20px;"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- OOP DEMO VIEW -->
+          <div class="demo-view" id="demo-oop" style="display:none;">
+            <div class="demo-topbar">
+              <button class="demo-back" id="demo-oop-back">&#8592; Back</button>
+              <span class="demo-topbar-title" style="color:#7b2fff;">OOP CONCEPTS</span>
+              <div class="ds-tabs" id="oop-tabs">
+                <button class="ds-tab active" data-oop="diagram">Static Diagram</button>
+                <button class="ds-tab" data-oop="runtime">Runtime</button>
+                <button class="ds-tab" data-oop="scene">Scene</button>
+              </div>
+            </div>
+            <div class="demo-split">
+              <div class="demo-code-panel">
+                <div class="demo-code-header">Inheritance.cs</div>
+                <pre class="demo-code" id="oop-code"><code><span class="line" data-line="1"><span class="kw">abstract class</span> <span class="fn">Animal</span></span>
+<span class="line" data-line="2">{</span>
+<span class="line" data-line="3">    <span class="kw">public string</span> Name;</span>
+<span class="line" data-line="4">    <span class="kw">public virtual void</span> <span class="fn">Speak</span>() { }</span>
+<span class="line" data-line="5">}</span>
+<span class="line" data-line="6"></span>
+<span class="line" data-line="7"><span class="kw">class</span> <span class="fn">Dog</span> : <span class="fn">Animal</span></span>
+<span class="line" data-line="8">{</span>
+<span class="line" data-line="9">    <span class="kw">public override void</span> <span class="fn">Speak</span>()</span>
+<span class="line" data-line="10">        =&gt; Console.Write(<span class="str">"Woof!"</span>);</span>
+<span class="line" data-line="11">}</span>
+<span class="line" data-line="12"></span>
+<span class="line" data-line="13"><span class="fn">Animal</span> a = <span class="kw">new</span> <span class="fn">Dog</span>();</span>
+<span class="line" data-line="14">a.Name = <span class="str">"Buddy"</span>;</span>
+<span class="line" data-line="15">a.Speak(); <span class="cmt">// virtual → Dog</span></span></code></pre>
+                <div class="demo-vars">
+                  <div class="demo-vars-title">STATE</div>
+                  <div class="demo-vars-body" id="oop-vars-body">—</div>
+                </div>
+              </div>
+              <div class="demo-graph-panel">
+                <div class="demo-toolbar">
+                  <button class="demo-btn" id="oop-reset">&#8634; RESET</button>
+                  <button class="demo-btn" id="oop-prev">&#9664; PREV</button>
+                  <button class="demo-btn" id="oop-step">STEP &#9654;</button>
+                  <button class="demo-btn demo-play-btn" id="oop-play">&#9654; PLAY</button>
+                  <span class="demo-step-counter" id="oop-counter">—</span>
+                </div>
+                <div class="ds-canvas" id="oop-canvas"></div>
+                <div class="ds-canvas" id="oop-scene-container" style="display:none;position:relative;"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- DATA STRUCTURES DEMO VIEW -->
+          <div class="demo-view" id="demo-ds" style="display:none;">
+            <div class="demo-topbar">
+              <button class="demo-back" id="demo-ds-back">&#8592; Back</button>
+              <span class="demo-topbar-title" style="color:var(--app-accent);">DATA STRUCTURES</span>
+              <div class="ds-tabs" id="ds-tabs">
+                <button class="ds-tab active" data-ds="array">Array</button>
+                <button class="ds-tab" data-ds="linked">Linked List</button>
+                <button class="ds-tab" data-ds="stack">Stack</button>
+                <button class="ds-tab" data-ds="queue">Queue</button>
+                <button class="ds-tab" data-ds="tree">Binary Tree</button>
+              </div>
+            </div>
+            <div class="demo-split">
+              <div class="demo-code-panel">
+                <div class="demo-code-header" id="ds-code-header">Array.cs</div>
+                <pre class="demo-code" id="ds-code"></pre>
+                <div class="demo-vars">
+                  <div class="demo-vars-title">STATE</div>
+                  <div class="demo-vars-body" id="ds-vars-body">—</div>
+                </div>
+              </div>
+              <div class="demo-graph-panel">
+                <div class="demo-toolbar">
+                  <button class="demo-btn" id="ds-reset">&#8634; RESET</button>
+                  <button class="demo-btn" id="ds-prev">&#9664; PREV</button>
+                  <button class="demo-btn" id="ds-step">STEP &#9654;</button>
+                  <button class="demo-btn demo-play-btn" id="ds-play">&#9654; PLAY</button>
+                  <span class="demo-step-counter" id="ds-counter">—</span>
+                </div>
+                <div class="ds-canvas" id="ds-canvas"></div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==================== VISUALIZERS ==================== -->
+  <section id="visualizers">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-eyebrow">10 visualizers</div>
+        <h2 class="section-title">Every concept,<br>rendered live.</h2>
+        <p class="section-sub">
+          Paste real C# or Java code. Get interactive diagrams back.
+          Built on Roslyn AST, .NET 8, and a Rust/WASM microkernel.
+        </p>
+      </div>
+
+      <!-- ROW 1 -->
+      <div class="viz-row">
+
+        <!-- FLOWCHART -->
+        <div class="viz-card lp-card flow">
+          <div class="lp-icon">&#9654;</div>
+          <div class="lp-title">FLOWCHART</div>
+          <div class="lp-desc">Generate control-flow diagrams from any method instantly.</div>
+        </div>
+
+        <!-- DATA STRUCTURES -->
+        <div class="viz-card lp-card ds">
+          <div class="lp-icon">&#9783;</div>
+          <div class="lp-title">DATA STRUCTURES</div>
+          <div class="lp-desc">Watch arrays, linked lists, trees, stacks and queues update live.</div>
+        </div>
+
+        <!-- OOP -->
+        <div class="viz-card lp-card oop">
+          <div class="lp-icon">&#9671;</div>
+          <div class="lp-title">OOP CONCEPTS</div>
+          <div class="lp-desc">See inheritance, polymorphism, and virtual dispatch in action.</div>
+        </div>
+
+        <!-- RECURSION -->
+        <div class="viz-card lp-card rec">
+          <div class="lp-icon">&#8635;</div>
+          <div class="lp-title">RECURSION</div>
+          <div class="lp-desc">Watch the call tree grow and trace return values frame by frame.</div>
+        </div>
+
+        <!-- ALGORITHMS -->
+        <div class="viz-card lp-card algo">
+          <div class="lp-icon">&#9660;</div>
+          <div class="lp-title">ALGORITHMS</div>
+          <div class="lp-desc">Animate sorting and searching algorithms with side-by-side compare.</div>
+        </div>
+
+      </div><!-- /viz-row 1 -->
+
+      <!-- INLINE EXPAND PANEL -->
+      <div class="viz-expand" id="viz-expand">
+        <div class="viz-expand-inner">
+          <div class="vp-info">
+            <div class="vp-icon" id="vp-icon"></div>
+            <div class="vp-title" id="vp-title">Hover a visualizer</div>
+            <p class="vp-desc" id="vp-desc">Select any card to see a preview.</p>
+          </div>
+          <div class="vp-screen">
+            <img id="vp-img" class="vp-img" alt="">
+            <div class="vp-empty" id="vp-empty"><i class="fa-regular fa-image"></i></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ROW 2 -->
+      <div class="viz-row">
+
+        <!-- COMPLEXITY -->
+        <div class="viz-card lp-card cmp">
+          <div class="lp-icon">&#8734;</div>
+          <div class="lp-title">COMPLEXITY</div>
+          <div class="lp-desc">Get Big O notation, growth curves, and plain-English explanations.</div>
+        </div>
+
+        <!-- DFOS -->
+        <div class="viz-card lp-card dfos">
+          <div class="lp-icon">&#9881;</div>
+          <div class="lp-title">DFOS — OS CONCEPTS</div>
+          <div class="lp-desc">A live Rust microkernel — PCB states, scheduling, and memory frames.</div>
+        </div>
+
+        <!-- AUTOMATA -->
+        <div class="viz-card lp-card aut">
+          <div class="lp-icon">&#8767;</div>
+          <div class="lp-title">AUTOMATA</div>
+          <div class="lp-desc">Build and run DFAs, NFAs, PDAs, and Turing Machines interactively.</div>
+        </div>
+
+        <!-- NUMERICAL -->
+        <div class="viz-card lp-card num">
+          <div class="lp-icon">&#8721;</div>
+          <div class="lp-title">NUMERICAL METHODS</div>
+          <div class="lp-desc">Visualize root-finding, integration, ODEs, and linear algebra.</div>
+        </div>
+
+        <!-- BOOLEAN -->
+        <div class="viz-card lp-card bool">
+          <div class="lp-icon">&#8853;</div>
+          <div class="lp-title">BOOLEAN ALGEBRA</div>
+          <div class="lp-desc">Truth tables, logic gates, simplification, and 3D Karnaugh maps.</div>
+        </div>
+
+      </div><!-- /viz-row 2 -->
+
+      <!-- INLINE EXPAND PANEL — row 2 -->
+      <div class="viz-expand" id="viz-expand-2">
+        <div class="viz-expand-inner">
+          <div class="vp-info">
+            <div class="vp-icon" id="vp-icon-2"></div>
+            <div class="vp-title" id="vp-title-2">Hover a visualizer</div>
+            <p class="vp-desc" id="vp-desc-2">Select any card to see a preview.</p>
+          </div>
+          <div class="vp-screen">
+            <img id="vp-img-2" class="vp-img" alt="">
+            <div class="vp-empty" id="vp-empty-2"><i class="fa-regular fa-image"></i></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==================== DOWNLOAD ==================== -->
+  <section id="download">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-eyebrow">platforms</div>
+        <h2 class="section-title">Available everywhere<br>you code.</h2>
+        <p class="section-sub">
+          Visualize your own code in real time. Powered by a built-in CS assistant.
+        </p>
+      </div>
+
+      <div class="platform-grid">
+
+        <!-- WINDOWS -->
+        <div class="platform-card" data-gsap="card">
+          <span class="plat-logo"><i class="fab fa-windows"></i></span>
+          <h3>Windows</h3>
+        </div>
+
+        <!-- MACOS -->
+        <div class="platform-card" data-gsap="card">
+          <span class="plat-logo"><i class="fab fa-apple"></i></span>
+          <h3>macOS</h3>
+        </div>
+
+        <!-- LINUX -->
+        <div class="platform-card" data-gsap="card">
+          <span class="plat-logo"><i class="fab fa-linux"></i></span>
+          <h3>Linux</h3>
+        </div>
+
+      </div>
+
+      <div class="platform-btn-row">
+        <a href="https://apps.microsoft.com/detail/9p10z5g3kf3q?hl=en-us&gl=IL&ocid=pdpshare"
+           class="btn-install" target="_blank">
+          <i class="fab fa-microsoft"></i> Microsoft Store
+        </a>
+        <a href="https://github.com/davidFrucht/CS-Visualizer-Releases/releases/download/latest/CSVisualizer-macOS.zip"
+           class="btn-install">
+          <i class="fa-solid fa-download"></i> Download .app
+        </a>
+        <a href="https://snapcraft.io/cs-visualizer" class="btn-install">
+          <i class="fab fa-linux"></i> Snap Store
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==================== PLUGINS ==================== -->
+  <section id="plugins">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-eyebrow">IDE integration</div>
+        <h2 class="section-title">Right-click any code.<br>Visualize it.</h2>
+        <p class="section-sub">
+          A complete ecosystem inside your favorite tools. Native plugins for every major IDE — visualize code without ever leaving your editor.
+        </p>
+      </div>
+
+      <div class="plugin-expand-wrap" id="plugin-expand-wrap">
+
+        <div class="plugin-cards-col">
+          <div class="plugin-grid">
+
+            <!-- VISUAL STUDIO -->
+            <div class="plugin-card" data-plugin="vs" data-gsap="card">
+              <span class="plugin-icon"><i class="devicon-visualstudio-plain"></i></span>
+              <h3>Visual Studio</h3>
+              <a href="https://marketplace.visualstudio.com/items?itemName=davidfrucht.CSVisualizer" class="btn-install plugin-card-btn" target="_blank">
+                <i class="fa-solid fa-arrow-up-right-from-square"></i> Get from Marketplace
+              </a>
+            </div>
+
+            <!-- VS CODE -->
+            <div class="plugin-card" data-plugin="vscode" data-gsap="card">
+              <span class="plugin-icon"><i class="devicon-vscode-plain"></i></span>
+              <h3>VS Code</h3>
+              <a href="https://marketplace.visualstudio.com/items?itemName=davidfrucht.cs-visualizer" class="btn-install plugin-card-btn" target="_blank">
+                <i class="fa-solid fa-arrow-up-right-from-square"></i> Get from Marketplace
+              </a>
+            </div>
+
+            <!-- JETBRAINS -->
+            <div class="plugin-card" data-plugin="jb" data-gsap="card">
+              <span class="plugin-icon"><i class="devicon-jetbrains-plain"></i></span>
+              <h3>JetBrains</h3>
+              <a href="https://plugins.jetbrains.com/plugin/30991-cs-visualizer/" class="btn-install plugin-card-btn" target="_blank">
+                <i class="fa-solid fa-arrow-up-right-from-square"></i> Get from Marketplace
+              </a>
+            </div>
+
+            <!-- ECLIPSE -->
+            <div class="plugin-card" data-plugin="eclipse" data-gsap="card">
+              <span class="plugin-icon"><i class="devicon-eclipse-plain"></i></span>
+              <h3>Eclipse</h3>
+              <a href="https://github.com/davidFrucht/CS-Visualizer-Releases/releases/download/latest/com.csvisualizer.jar" class="btn-install plugin-card-btn" target="_blank">
+                <i class="fa-solid fa-download"></i> Download Plugin
+              </a>
+            </div>
+
+          </div><!-- /plugin-grid -->
+        </div><!-- /plugin-cards-col -->
+
+        <!-- HORIZONTAL EXPAND PANEL -->
+        <div class="plugin-expand" id="plugin-expand">
+          <div class="plugin-expand-inner">
+            <div class="pe-info">
+              <div class="pe-title" id="pe-title">VS Code</div>
+              <p class="pe-desc" id="pe-desc">Right-click any selection to open it in CS Visualizer.</p>
+            </div>
+            <div class="pe-screen">
+              <img id="pe-img" class="pe-img" alt="">
+              <div class="pe-empty" id="pe-empty"><i class="fa-regular fa-image"></i></div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /plugin-expand-wrap -->
+    </div>
+  </section>
+
+  <!-- ==================== EXTENSIONS ==================== -->
+  <section id="extensions">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-eyebrow">browser extensions</div>
+        <h2 class="section-title">Visualize code<br>on any website.</h2>
+        <p class="section-sub">
+          Browse Stack Overflow, GitHub, or any tutorial site and visualize
+          code snippets instantly — a floating panel opens right on the page.
+        </p>
+      </div>
+
+      <div class="ext-grid">
+
+        <!-- CHROME -->
+        <div class="ext-card" data-ext="chrome" data-gsap="card">
+          <div class="ext-header">
+            <i class="fab fa-chrome ext-icon"></i>
+            <div class="ext-header-text">
+              <h3>Chrome Extension</h3>
+              <span class="ext-meta">Chrome Web Store</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- FIREFOX -->
+        <div class="ext-card" data-ext="firefox" data-gsap="card">
+          <div class="ext-header">
+            <i class="fab fa-firefox-browser ext-icon"></i>
+            <div class="ext-header-text">
+              <h3>Firefox Extension</h3>
+              <span class="ext-meta">Mozilla Add-ons · Listed</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- EDGE -->
+        <div class="ext-card ext-coming-soon" data-gsap="card">
+          <div class="ext-header">
+            <i class="fab fa-edge ext-icon"></i>
+            <div class="ext-header-text">
+              <h3>Edge Extension</h3>
+              <span class="ext-meta">Microsoft Edge Add-ons</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- EXPAND PANEL -->
+      <div class="ext-expand" id="ext-expand">
+        <div class="ext-expand-inner">
+          <div class="vp-info">
+            <div class="vp-icon" id="ext-icon"></div>
+            <div class="vp-title" id="ext-title"></div>
+            <p class="vp-desc" id="ext-desc"></p>
+          </div>
+          <div class="vp-screen">
+            <img id="ext-img" class="vp-img" alt="">
+            <div class="vp-empty"><i class="fa-regular fa-image"></i></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ext-btn-row">
+        <a href="https://chromewebstore.google.com/detail/cs-visualizer/pmdjehliajjjadmahlaakjlbdjjebama"
+           class="btn-install" target="_blank">
+          <i class="fab fa-chrome"></i> Add to Chrome
+        </a>
+        <a href="https://addons.mozilla.org/en-US/firefox/addon/cs-visualizer/"
+           class="btn-install" target="_blank">
+          <i class="fab fa-firefox-browser"></i> Add to Firefox
+        </a>
+        <div class="coming-soon-badge">
+          <i class="fa-solid fa-clock"></i> Coming Soon
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer>
+    <div class="footer-bottom">
+      <span>© 2026 David Frucht</span>
+      <div class="footer-links">
+        <a href="#">Terms</a>
+        <a href="#">Privacy</a>
+        <a href="mailto:davidfruc@gmail.com">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==================== CONTACT MODAL ==================== -->
+  <div id="contact-overlay">
+    <div id="contact-box">
+      <div id="contact-header">
+        <span id="contact-title">CONTACT</span>
+        <button id="contact-close">&#10005;</button>
+      </div>
+      <div id="contact-body">
+        <div>
+          <div class="cf-label">NAME</div>
+          <input class="cf-input" id="cf-name" type="text" placeholder="Your name" autocomplete="off">
+        </div>
+        <div>
+          <div class="cf-label">EMAIL</div>
+          <input class="cf-input" id="cf-email" type="email" placeholder="your@email.com" autocomplete="off">
+        </div>
+        <div>
+          <div class="cf-label">MESSAGE</div>
+          <textarea class="cf-textarea" id="cf-message" placeholder="Describe your bug, idea or question..."></textarea>
+        </div>
+        <div id="cf-status"></div>
+        <button id="cf-submit">&#9654; SEND MESSAGE</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== SCRIPTS ==================== -->
+
+  <script src="https://cdn.jsdelivr.net/npm/cytoscape@3.28.1/dist/cytoscape.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dagre@0.8.5/dist/dagre.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/cytoscape-dagre@2.5.0/cytoscape-dagre.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>

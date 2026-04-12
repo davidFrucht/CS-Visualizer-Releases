@@ -1,8 +1,7 @@
-{                                                                                                                                                                                                      
-    "min_build_required": 155,                                                                                                                                                                           
-    "lock_message": "This version of CS Visualizer is no longer supported. Please update to the latest version to access new features including JavaScript support, improved recursion visualizer, Java 8
-   compatibility, and more bug fixes.",                                                                                                                                                                  
+{                                       
+    "min_build_required": 155,
+    "lock_message": "This version of CS Visualizer is no longer supported. Please update to the latest version to access new features including JavaScript support, improved recursion visualizer, Java 8 compatibility, and more bug fixes.",       
     "win_url": "https://apps.microsoft.com/detail/9p10z5g3kf3q?hl=en-US&gl=IL",                                                                                                                          
     "mac_url": "https://github.com/davidFrucht/CS-Visualizer-Releases/releases/download/latest/CSVisualizer-macOS.zip",
     "linux_url": "https://snapcraft.io/cs-visualizer"                                                                                                                                                    
-  } 
+}      

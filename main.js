@@ -5,6 +5,41 @@
 
 'use strict';
 
+/* ─── 0. PRODUCT SWITCHER ─────────────────────────────────── */
+(function () {
+  const asmBtn  = document.getElementById('nav-asm-btn');
+  const pageCs  = document.getElementById('page-cs');
+  const pageAsm = document.getElementById('page-asm');
+  if (!asmBtn || !pageCs || !pageAsm) return;
+
+  const csBtn = document.getElementById('nav-cs-btn');
+
+  const navLinksCs  = document.getElementById('nav-links-cs');
+  const navLinksAsm = document.getElementById('nav-links-asm');
+  const navDlBtn    = document.getElementById('nav-download-btn');
+
+  function switchTo(prod) {
+    const isAsm = prod === 'asm';
+    pageCs.style.display  = isAsm ? 'none' : '';
+    pageAsm.style.display = isAsm ? '' : 'none';
+    asmBtn.classList.toggle('nav-asm-btn--active', isAsm);
+    if (csBtn) csBtn.classList.toggle('nav-logo--active', !isAsm);
+    if (navLinksCs)  navLinksCs.style.display  = isAsm ? 'none' : '';
+    if (navLinksAsm) navLinksAsm.style.display = isAsm ? '' : 'none';
+    if (navDlBtn) navDlBtn.href = isAsm ? '#asm-download' : '#download';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  /* CS is active on load */
+  if (csBtn) csBtn.classList.add('nav-logo--active');
+
+  asmBtn.addEventListener('click', () => switchTo('asm'));
+
+  if (csBtn) {
+    csBtn.addEventListener('click', (e) => { e.preventDefault(); switchTo('cs'); });
+  }
+})();
+
 /* ─── 1. LENIS SMOOTH SCROLL ──────────────────────────────── */
 const lenis = new Lenis({
   duration: 1.0,
@@ -542,6 +577,164 @@ gsap.from('footer .footer-col', {
   }
 
   document.querySelectorAll('.lp-card').forEach(card => {
+    card.addEventListener('mouseenter', () => showFor(card));
+    card.addEventListener('mouseleave', () => {
+      const type = getType(card);
+      if (!type) return;
+      if (ROW1_TYPES.has(type)) tryClose1(); else tryClose2();
+    });
+  });
+
+  expand1.addEventListener('mouseenter', () => { if (closeTimer1) { clearTimeout(closeTimer1); closeTimer1 = null; } });
+  expand1.addEventListener('mouseleave', tryClose1);
+
+  expand2.addEventListener('mouseenter', () => { if (closeTimer2) { clearTimeout(closeTimer2); closeTimer2 = null; } });
+  expand2.addEventListener('mouseleave', tryClose2);
+})();
+
+
+/* ─── 7b. ASM VIZ EXPAND PANEL ───────────────────────────── */
+(function initAsmVizPreview() {
+  const ROW1_TYPES = new Set(['adbg','astep','aflow','adec','aflags']);
+
+  const expand1 = document.getElementById('asm-viz-expand');
+  const img1    = document.getElementById('asm-vp-img');
+  const icon1   = document.getElementById('asm-vp-icon');
+  const title1  = document.getElementById('asm-vp-title');
+  const desc1   = document.getElementById('asm-vp-desc');
+
+  const expand2 = document.getElementById('asm-viz-expand-2');
+  const img2    = document.getElementById('asm-vp-img-2');
+  const icon2   = document.getElementById('asm-vp-icon-2');
+  const title2  = document.getElementById('asm-vp-title-2');
+  const desc2   = document.getElementById('asm-vp-desc-2');
+
+  if (!expand1 || !expand2) return;
+
+  const DATA = {
+    adbg:   { icon: '&#9881;', title: 'LIVE DEBUGGER',       desc: 'See every register, flag, and memory byte update live — step through your code and watch the machine think.',                                           imageDark: 'images/asm/asm%201%20dark.png',  imageLight: 'images/asm/asm%201%20light.png'  },
+    astep:  { icon: '&#9654;', title: 'CPU STEP VIEW',        desc: 'No more guessing. See exactly what your CPU does at every step — opcode bytes, timing, and register side effects all in one panel.',                   imageDark: 'images/asm/asm%202%20dark.png',  imageLight: 'images/asm/asm%202%20light.png'  },
+    aflow:  { icon: '&#9671;', title: 'FLOWCHART',            desc: 'Instantly visualize any block of code as a control-flow diagram — decision diamonds, loop back-edges, and exit paths generated in real time.',          imageDark: 'images/asm/asm%203%20dark.png',  imageLight: 'images/asm/asm%203%20light.png'  },
+    adec:   { icon: '&#8801;', title: 'INSTRUCTION DECODE',   desc: 'Every instruction decoded — see the operands, affected flags, memory address math, and raw machine bytes side by side.',                               imageDark: 'images/asm/4%20asm%20dark.png',  imageLight: 'images/asm/4%20asm%20light.png'  },
+    aflags: { icon: '&#9873;', title: 'FLAGS / BITS',         desc: 'Watch every flag light up in real time — see exactly which bits triggered ZF, CF, SF, and OF after each operation, with before/after comparison.',    imageDark: 'images/asm/5%20asm%20dark.png',  imageLight: 'images/asm/5%20asm%20light.png'  },
+    abranch:{ icon: '&#8658;', title: 'BRANCH ANALYSIS',      desc: 'See exactly which condition decides each branch — the active flags, the jump rule, TAKEN or SKIPPED, and where IP lands next.',                        imageDark: 'images/asm/6%20asm%20dark.png',  imageLight: 'images/asm/6%20asm%20light.png'  },
+    aint:   { icon: '&#9889;', title: 'INTERRUPTS',           desc: 'Step through it — each INT lights up the interrupt panel showing the service name, IVT entry, stack snapshot, and DOS function.',                      imageDark: 'images/asm/7%20asm%20dark.png',  imageLight: 'images/asm/7%20asm%20light.png'  },
+    ahist:  { icon: '&#8767;', title: 'REGISTER HISTORY',     desc: 'Watch every register\'s full journey — sparklines trace every value change from step 1 to now, with min/max annotation and change counts.',           imageDark: 'images/asm/8%20asm%20dark.png',  imageLight: 'images/asm/8%20asm%20light.png'  },
+    aheat:  { icon: '&#9638;', title: 'MEMORY HEATMAP',       desc: 'Every memory access mapped live — see exactly which bytes were read or written, how hot each address ran, and how deep the stack grew.',               imageDark: 'images/asm/9%20asm%20dark.png',  imageLight: 'images/asm/9%20asm%20light.png'  },
+  };
+
+  function getType(card) {
+    return Object.keys(DATA).find(k => card.classList.contains(k)) || null;
+  }
+
+  function isDarkTheme() {
+    return document.documentElement.getAttribute('data-theme') !== 'light';
+  }
+
+  let closeTimer1 = null;
+  let closeTimer2 = null;
+  let scrollLock  = false;
+  let scrollLockTimer = null;
+
+  const SCROLL_DURATION_MS = 1200;
+  const CLOSE_DELAY_MS     = 300;
+  const PANEL_HEIGHT       = 520;
+
+  function setScrollLock() {
+    scrollLock = true;
+    if (scrollLockTimer) clearTimeout(scrollLockTimer);
+    scrollLockTimer = setTimeout(() => { scrollLock = false; }, SCROLL_DURATION_MS);
+  }
+
+  function populatePanel(panelImg, panelIcon, panelTitle, panelDesc, d, src) {
+    panelIcon.innerHTML    = d.icon;
+    panelTitle.textContent = d.title;
+    panelDesc.textContent  = d.desc;
+    panelImg.classList.remove('loaded');
+    panelImg.onload = () => panelImg.classList.add('loaded');
+    if (panelImg.getAttribute('src') !== src) {
+      panelImg.src = src;
+    } else {
+      panelImg.classList.add('loaded');
+    }
+  }
+
+  const vizRows = document.querySelectorAll('#asm-visualizers .viz-row');
+  const row1El  = vizRows[0];
+  const row2El  = vizRows[1];
+  const NAV_H   = 90;
+
+  function openPanel(panel, isRow1, closingHeight) {
+    panel.classList.add('open');
+
+    let delta;
+    if (isRow1) {
+      const row1Rect = row1El.getBoundingClientRect();
+      delta = row1Rect.top - NAV_H;
+    } else {
+      const row2Rect = row2El.getBoundingClientRect();
+      const adjustedTop = row2Rect.top - closingHeight;
+      delta = adjustedTop - NAV_H;
+    }
+
+    if (Math.abs(delta) > 5) {
+      setScrollLock();
+      lenis.scrollTo(window.scrollY + delta, { duration: 1.2 });
+    }
+  }
+
+  let activeRow = null;
+
+  function showFor(card) {
+    const type = getType(card);
+    if (!type) return;
+    const isRow1 = ROW1_TYPES.has(type);
+
+    if (scrollLock && activeRow !== null && activeRow !== (isRow1 ? 1 : 2)) return;
+
+    const d   = DATA[type];
+    const src = isDarkTheme() ? d.imageDark : d.imageLight;
+
+    if (isRow1) {
+      activeRow = 1;
+      if (closeTimer1) { clearTimeout(closeTimer1); closeTimer1 = null; }
+      const closing2Height = expand2.classList.contains('open') ? PANEL_HEIGHT : 0;
+      if (closing2Height) closePanel(expand2); else expand2.classList.remove('closing');
+      populatePanel(img1, icon1, title1, desc1, d, src);
+      openPanel(expand1, true, 0);
+    } else {
+      activeRow = 2;
+      if (closeTimer2) { clearTimeout(closeTimer2); closeTimer2 = null; }
+      const closing1Height = expand1.classList.contains('open') ? PANEL_HEIGHT : 0;
+      if (closing1Height) closePanel(expand1); else expand1.classList.remove('closing');
+      populatePanel(img2, icon2, title2, desc2, d, src);
+      openPanel(expand2, false, closing1Height);
+    }
+  }
+
+  function closePanel(panel) {
+    panel.classList.remove('open');
+    panel.classList.add('closing');
+    activeRow = null;
+
+    function onEnd(e) {
+      if (e.propertyName !== 'height') return;
+      panel.classList.remove('closing');
+      panel.removeEventListener('transitionend', onEnd);
+    }
+    panel.addEventListener('transitionend', onEnd);
+  }
+
+  function tryClose1() {
+    if (scrollLock) return;
+    closeTimer1 = setTimeout(() => { closePanel(expand1); closeTimer1 = null; }, CLOSE_DELAY_MS);
+  }
+  function tryClose2() {
+    if (scrollLock) return;
+    closeTimer2 = setTimeout(() => { closePanel(expand2); closeTimer2 = null; }, CLOSE_DELAY_MS);
+  }
+
+  document.querySelectorAll('#asm-visualizers .lp-card').forEach(card => {
     card.addEventListener('mouseenter', () => showFor(card));
     card.addEventListener('mouseleave', () => {
       const type = getType(card);
@@ -3996,4 +4189,964 @@ fib(1) fib(0)
     appTitle.style.display = '';
     appFooter.style.display = '';
   });
+})();
+
+// ============================================================
+// ASM VISUALIZER DEMO  (8086 MASM style)
+// ============================================================
+(function () {
+
+  // --- Code lines (rendered into editor) ---
+  const CODE = [
+    { n:1,  h:'<span class="e-cmt">; ASM-VISUALIZER \u2014 8086 Assembly Ec...</span>' },
+    { n:2,  h:'<span class="e-cmt">; Edit code here and press Run (F5)...</span>' },
+    { n:3,  h:'' },
+    { n:4,  h:'<span class="e-dir">.MODEL</span> SMALL' },
+    { n:5,  h:'<span class="e-dir">.STACK</span> <span class="e-num">100h</span>' },
+    { n:6,  h:'' },
+    { n:7,  h:'<span class="e-dir">.CODE</span>' },
+    { n:8,  h:'' },
+    { n:9,  h:'<span class="e-lbl">main</span> <span class="e-dir">PROC</span>' },
+    { n:10, h:'    <span class="e-kw">mov</span> <span class="e-reg">cx</span>, <span class="e-num">2</span>          <span class="e-cmt">; loop counter</span>' },
+    { n:11, h:'    <span class="e-kw">mov</span> <span class="e-reg">ax</span>, <span class="e-num">0</span>          <span class="e-cmt">; accumulator</span>' },
+    { n:12, h:'' },
+    { n:13, h:'<span class="e-lbl">loop_start:</span>' },
+    { n:14, h:'    <span class="e-kw">add</span> <span class="e-reg">ax</span>, <span class="e-reg">cx</span>         <span class="e-cmt">; ax += cx</span>' },
+    { n:15, h:'    <span class="e-kw">dec</span> <span class="e-reg">cx</span>              <span class="e-cmt">; cx--</span>' },
+    { n:16, h:'    <span class="e-kw">jnz</span> <span class="e-lbl">loop_start</span>     <span class="e-cmt">; repeat while cx != 0</span>' },
+    { n:17, h:'' },
+    { n:18, h:'    <span class="e-cmt">; AX = 2+1 = 3 (0x0003)</span>' },
+    { n:19, h:'    <span class="e-kw">mov</span> <span class="e-reg">ah</span>, <span class="e-num">4Ch</span>         <span class="e-cmt">; DOS: exit service</span>' },
+    { n:20, h:'    <span class="e-kw">int</span> <span class="e-num">21h</span>             <span class="e-cmt">; invoke DOS</span>' },
+    { n:21, h:'' },
+    { n:22, h:'<span class="e-lbl">main</span> <span class="e-dir">ENDP</span>' },
+    { n:23, h:'' },
+    { n:24, h:'<span class="e-dir">END</span> <span class="e-lbl">main</span>' },
+    { n:25, h:'' },
+  ];
+
+  // Render code lines into editor
+  const codeArea = document.getElementById('asmv-code');
+  if (codeArea) {
+    codeArea.innerHTML = CODE.map(l =>
+      '<div class="asm-cl" data-ln="' + l.n + '">' +
+        '<span class="asm-cl-arr"></span>' +
+        '<span class="asm-cl-num">' + l.n + '</span>' +
+        '<span class="asm-cl-src">' + l.h + '</span>' +
+      '</div>'
+    ).join('');
+  }
+
+  // --- 8086 register state ---
+  const REG_NAMES = ['AX','BX','CX','DX','SI','DI','BP','SP','CS','DS','ES','SS','IP'];
+  const FLAG_NAMES = ['ZF','CF','SF','OF','PF','AF','DF','IF'];
+  const R0 = { AX:0,BX:0,CX:0,DX:0,SI:0,DI:0,BP:0,SP:0xFFFE,CS:0x1000,DS:0x1000,ES:0x1000,SS:0x1000,IP:0x0000 };
+  const F0 = { ZF:0,CF:0,SF:0,OF:0,PF:0,AF:0,DF:0,IF:1 };
+
+  function h4(v) { return '0x' + (v & 0xFFFF).toString(16).toUpperCase().padStart(4,'0'); }
+
+  // anatomy helper
+  function anat(mn, form, enc, op, flags, cycles) {
+    return { mn, form, enc, op, flags, cycles };
+  }
+
+  // --- Execution trace ---
+  const TRACE = [
+    {
+      line: null, changed: [], cycleTotal: 0, traceText: null, anatomy: null,
+      regs: Object.assign({}, R0), flags: Object.assign({}, F0)
+    },
+    // step 1: mov cx, 2
+    { line:10, changed:['CX','IP'], cycleTotal:4, traceText:'mov cx, 2  \u2192  CX = 0x0002',
+      regs:{AX:0,BX:0,CX:2,DX:0,SI:0,DI:0,BP:0,SP:0xFFFE,CS:0x1000,DS:0x1000,ES:0x1000,SS:0x1000,IP:0x0003},
+      flags:{ZF:0,CF:0,SF:0,OF:0,PF:0,AF:0,DF:0,IF:1},
+      anatomy:anat('MOV','MOV r16, imm16','B9 02 00','CX \u2190 0x0002','None affected',4) },
+    // step 2: mov ax, 0
+    { line:11, changed:['IP'], cycleTotal:8, traceText:'mov ax, 0  \u2192  AX = 0x0000',
+      regs:{AX:0,BX:0,CX:5,DX:0,SI:0,DI:0,BP:0,SP:0xFFFE,CS:0x1000,DS:0x1000,ES:0x1000,SS:0x1000,IP:0x0006},
+      flags:{ZF:0,CF:0,SF:0,OF:0,PF:0,AF:0,DF:0,IF:1},
+      anatomy:anat('MOV','MOV r16, imm16','B8 00 00','AX \u2190 0x0000','None affected',4) },
+    // step 3: add ax, cx (iter 1, CX=2)
+    { line:14, changed:['AX','IP'], cycleTotal:11, traceText:'add ax, cx  \u2192  AX = 0x0000 + 0x0002 = 0x0002',
+      regs:{AX:2,BX:0,CX:2,DX:0,SI:0,DI:0,BP:0,SP:0xFFFE,CS:0x1000,DS:0x1000,ES:0x1000,SS:0x1000,IP:0x0008},
+      flags:{ZF:0,CF:0,SF:0,OF:0,PF:0,AF:0,DF:0,IF:1},
+      anatomy:anat('ADD','ADD r16, r16','03 C1','AX = 0x0000 + 0x0002 = 0x0002','ZF CF SF OF PF AF',3) },
+    // step 4: dec cx \u2192 1
+    { line:15, changed:['CX','IP'], cycleTotal:14, traceText:'dec cx  \u2192  CX = 0x0002 \u2212 1 = 0x0001',
+      regs:{AX:2,BX:0,CX:1,DX:0,SI:0,DI:0,BP:0,SP:0xFFFE,CS:0x1000,DS:0x1000,ES:0x1000,SS:0x1000,IP:0x000A},
+      flags:{ZF:0,CF:0,SF:0,OF:0,PF:0,AF:0,DF:0,IF:1},
+      anatomy:anat('DEC','DEC r16','49','CX = 0x0002 \u2212 1 = 0x0001','ZF SF OF PF AF',3) },
+    // step 5: jnz taken
+    { line:16, changed:['IP'], cycleTotal:30, traceText:'jnz loop_start  \u2192  ZF=0, jump TAKEN \u2192 0x0006',
+      regs:{AX:2,BX:0,CX:1,DX:0,SI:0,DI:0,BP:0,SP:0xFFFE,CS:0x1000,DS:0x1000,ES:0x1000,SS:0x1000,IP:0x0006},
+      flags:{ZF:0,CF:0,SF:0,OF:0,PF:0,AF:0,DF:0,IF:1},
+      anatomy:anat('JNZ','JNZ short-label','75 FA','ZF=0 \u2192 jump to loop_start','None affected',16) },
+    // step 6: add ax, cx (iter 2, CX=1)
+    { line:14, changed:['AX','IP'], cycleTotal:33, traceText:'add ax, cx  \u2192  0x0002 + 0x0001 = 0x0003',
+      regs:{AX:3,BX:0,CX:1,DX:0,SI:0,DI:0,BP:0,SP:0xFFFE,CS:0x1000,DS:0x1000,ES:0x1000,SS:0x1000,IP:0x0008},
+      flags:{ZF:0,CF:0,SF:0,OF:0,PF:1,AF:0,DF:0,IF:1},
+      anatomy:anat('ADD','ADD r16, r16','03 C1','AX = 0x0002 + 0x0001 = 0x0003','ZF CF SF OF PF AF',3) },
+    // step 7: dec cx \u2192 0, ZF=1
+    { line:15, changed:['CX','IP','ZF'], cycleTotal:36, traceText:'dec cx  \u2192  CX = 0x0000  ZF\u21901',
+      regs:{AX:3,BX:0,CX:0,DX:0,SI:0,DI:0,BP:0,SP:0xFFFE,CS:0x1000,DS:0x1000,ES:0x1000,SS:0x1000,IP:0x000A},
+      flags:{ZF:1,CF:0,SF:0,OF:0,PF:1,AF:0,DF:0,IF:1},
+      anatomy:anat('DEC','DEC r16','49','CX = 0x0001 \u2212 1 = 0x0000 \u2192 ZF=1','ZF=1, SF, OF, PF, AF',3) },
+    // step 8: jnz NOT taken
+    { line:16, changed:['IP'], cycleTotal:42, traceText:'jnz loop_start  \u2192  ZF=1, NOT taken \u2192 fall through',
+      regs:{AX:3,BX:0,CX:0,DX:0,SI:0,DI:0,BP:0,SP:0xFFFE,CS:0x1000,DS:0x1000,ES:0x1000,SS:0x1000,IP:0x000B},
+      flags:{ZF:1,CF:0,SF:0,OF:0,PF:1,AF:0,DF:0,IF:1},
+      anatomy:anat('JNZ','JNZ short-label','75 FA','ZF=1 \u2192 NOT jumping, fall through','None affected',6) },
+    // step 9: mov ah, 4Ch
+    { line:19, changed:['AX','IP'], cycleTotal:46, traceText:'mov ah, 4Ch  \u2192  AH = 0x4C (DOS exit service)',
+      regs:{AX:0x4C03,BX:0,CX:0,DX:0,SI:0,DI:0,BP:0,SP:0xFFFE,CS:0x1000,DS:0x1000,ES:0x1000,SS:0x1000,IP:0x000E},
+      flags:{ZF:1,CF:0,SF:0,OF:0,PF:1,AF:0,DF:0,IF:1},
+      anatomy:anat('MOV','MOV r8, imm8','B4 4C','AH \u2190 0x4C  (DOS Terminate function)','None affected',4) },
+    // step 10: int 21h
+    { line:20, changed:['SP','IP','IF'], cycleTotal:97, traceText:'int 21h  \u2192  INT 21h / AH=4Ch: terminate, exit code AL=0x03',
+      regs:{AX:0x4C03,BX:0,CX:0,DX:0,SI:0,DI:0,BP:0,SP:0xFFF8,CS:0x1000,DS:0x1000,ES:0x1000,SS:0x1000,IP:0x2C10},
+      flags:{ZF:1,CF:0,SF:0,OF:0,PF:1,AF:0,DF:0,IF:0},
+      anatomy:anat('INT','INT imm8','CD 21','Push FLAGS/CS/IP; IF\u21900; CS:IP \u2190 IVT[21h]','IF\u21900, TF\u21900',51),
+      intInfo:{ vector:0x21, ivtAddr:0x0084, handler:'2C10h:0000h',
+                service:{ ah:0x4C, name:'Terminate Program (EXIT)', alLabel:'exit code', alVal:0x03 },
+                stackPushed:[{reg:'FLAGS',val:0x0246},{reg:'CS',val:0x1000},{reg:'IP',val:0x000E}],
+                spBefore:0xFFFE, spAfter:0xFFF8 } },
+  ];
+
+  const TOTAL = TRACE.length - 1;
+  let cur = 0;
+  let playTimer = null;
+  const traceLog = [];
+  const jumpLog = [];
+  const intLog = [];
+
+  function nextLine(idx) {
+    for (let i = idx + 1; i <= TOTAL; i++) {
+      if (TRACE[i] && TRACE[i].line != null) return TRACE[i].line;
+    }
+    return null;
+  }
+
+  function render(idx) {
+    const step = TRACE[idx];
+    const prev = TRACE[Math.max(0, idx - 1)];
+
+    // Top step label
+    const topStep = document.getElementById('asmv-top-step');
+    if (topStep) topStep.textContent = 'STEP ' + idx;
+
+    // Cycles
+    const cyclesEl = document.getElementById('asmv-cycles');
+    if (cyclesEl) cyclesEl.textContent = '\u2014 Step ' + idx + '\u00a0\u00a0' + step.cycleTotal + ' cycles';
+
+    // Debugger info line
+    const dbgInfo = document.getElementById('asmv-dbg-info');
+    if (dbgInfo) {
+      const nl = nextLine(idx);
+      dbgInfo.textContent = 'Step ' + idx + '\u00a0\u00a0 Next: line ' + (nl || '\u2014') + '\u00a0\u00a0 Cycles: ' + step.cycleTotal;
+    }
+
+    // Editor: highlight active line
+    document.querySelectorAll('#asmv-code .asm-cl').forEach(el => {
+      el.classList.remove('asm-cl-active');
+      el.querySelector('.asm-cl-arr').textContent = '';
+    });
+    if (step.line != null) {
+      const el = document.querySelector('#asmv-code .asm-cl[data-ln="' + step.line + '"]');
+      if (el) {
+        el.classList.add('asm-cl-active');
+        el.querySelector('.asm-cl-arr').textContent = '\u25ba';
+      }
+    }
+
+    // Machine flow: anatomy tab
+    const mfContent = document.getElementById('asmv-mf-content');
+    if (mfContent) {
+      if (step.anatomy) {
+        const a = step.anatomy;
+        mfContent.innerHTML =
+          '<div class="asm-anatomy">' +
+            '<span class="asm-anatomy-k">Mnemonic</span><span class="asm-anatomy-v"><b>' + a.mn + '</b></span>' +
+            '<span class="asm-anatomy-k">Form</span><span class="asm-anatomy-v">' + a.form + '</span>' +
+            '<span class="asm-anatomy-k">Encoding</span><span class="asm-anatomy-v">' + a.enc + '</span>' +
+            '<span class="asm-anatomy-k">Operation</span><span class="asm-anatomy-v">' + a.op + '</span>' +
+            '<span class="asm-anatomy-k">Flags</span><span class="asm-anatomy-v">' + a.flags + '</span>' +
+            '<span class="asm-anatomy-k">Cycles</span><span class="asm-anatomy-v">' + a.cycles + '</span>' +
+          '</div>';
+      } else {
+        mfContent.innerHTML = '<p class="asm-mf-empty">Step through the program to see instruction anatomy.</p>';
+      }
+    }
+
+    // Update register boxes
+    REG_NAMES.forEach(reg => {
+      const el = document.getElementById('rb-' + reg);
+      if (!el) return;
+      const val = step.regs[reg];
+      const prev_val = prev.regs[reg];
+      const changed = step.changed.includes(reg);
+      el.querySelector('.asm-rb-h').textContent = h4(val);
+      el.querySelector('.asm-rb-d').textContent = val;
+      el.classList.toggle('asm-rb-changed', changed);
+    });
+
+    // Update flags
+    FLAG_NAMES.forEach(f => {
+      const el = document.getElementById('fc-' + f);
+      if (!el) return;
+      const val = step.flags[f];
+      const prevVal = prev.flags[f];
+      const changed = step.changed.includes(f);
+      el.classList.toggle('asm-fc--set', val === 1);
+      el.classList.toggle('asm-fc--changed', changed && val !== prevVal);
+      el.querySelector('.asm-fc-v').textContent = val;
+    });
+
+    // Re-render whichever pane is active
+    if (activeTab === 'alu') renderAluPane(idx);
+    else if (activeTab === 'jumps') renderJumpsPane(idx);
+    else if (activeTab === 'interrupts') renderIntPane(idx);
+    else if (activeTab === 'flowchart') renderFlowchart(idx);
+    else if (activeTab === 'history') renderRegHistory(idx);
+
+    // SP label
+    const spLbl = document.getElementById('asmv-sp-lbl');
+    if (spLbl) spLbl.textContent = 'SP=' + h4(step.regs.SP);
+
+    // Trace log
+    if (idx > 0 && step.traceText) {
+      if (traceLog.length === 0 || traceLog[traceLog.length - 1].idx !== idx) {
+        traceLog.push({ idx, text: step.traceText });
+      }
+      const traceBody = document.getElementById('asmv-trace');
+      if (traceBody) {
+        traceBody.innerHTML = traceLog.map(e =>
+          '<div class="asm-trace-entry">' +
+            '<span class="asm-te-step">Step ' + e.idx + '</span>' +
+            '<span class="asm-te-text">' + e.text + '</span>' +
+          '</div>'
+        ).join('');
+        traceBody.scrollTop = traceBody.scrollHeight;
+      }
+    } else if (idx === 0) {
+      traceLog.length = 0; jumpLog.length = 0; intLog.length = 0;
+      const traceBody = document.getElementById('asmv-trace');
+      if (traceBody) {
+        traceBody.innerHTML =
+          '<div class="asm-trace-empty"><span class="asm-trace-ei">\u2630</span><p>Execution trace will appear as you step.</p></div>';
+      }
+    }
+  }
+
+  function stopPlay() {
+    if (playTimer) { clearInterval(playTimer); playTimer = null; }
+  }
+
+  // Step button
+  document.getElementById('asmv-step').addEventListener('click', () => {
+    stopPlay();
+    document.getElementById('asmv-play').classList.remove('running');
+    document.getElementById('asmv-play').textContent = '\u25ba Run';
+    if (cur < TOTAL) { cur++; render(cur); }
+  });
+
+  // x10 button
+  document.getElementById('asmv-x10').addEventListener('click', () => {
+    stopPlay();
+    document.getElementById('asmv-play').classList.remove('running');
+    document.getElementById('asmv-play').textContent = '\u25ba Run';
+    cur = Math.min(cur + 10, TOTAL);
+    // rebuild trace + jump logs for all steps up to cur
+    traceLog.length = 0; jumpLog.length = 0; intLog.length = 0;
+    const JUMP_SET_RB = new Set(['JMP','JZ','JE','JNZ','JNE','JC','JB','JNC','JNB','JS','JNS','JO','JNO','JP','JNP','JL','JNL','JLE','JNLE','JCXZ','LOOP']);
+    for (let i = 1; i <= cur; i++) {
+      if (TRACE[i].traceText) traceLog.push({ idx: i, text: TRACE[i].traceText });
+      var rmn = TRACE[i].anatomy ? TRACE[i].anatomy.mn : null;
+      if (rmn && JUMP_SET_RB.has(rmn)) {
+        var rop = TRACE[i].anatomy.op || '';
+        jumpLog.push({ idx: i, mn: rmn, taken: !rop.toLowerCase().includes('not '), ip: TRACE[i].regs.IP });
+      }
+      if (rmn === 'INT' && TRACE[i].intInfo) {
+        intLog.push({ idx: i, vector: TRACE[i].intInfo.vector, desc: TRACE[i].intInfo.service ? TRACE[i].intInfo.service.name : '' });
+      }
+    }
+    render(cur);
+  });
+
+  // Reset (↺ button)
+  document.getElementById('asmv-reset').addEventListener('click', () => {
+    stopPlay();
+    document.getElementById('asmv-play').classList.remove('running');
+    document.getElementById('asmv-play').textContent = '\u25ba Run';
+    cur = 0;
+    traceLog.length = 0; jumpLog.length = 0; intLog.length = 0;
+    render(0);
+  });
+
+  // Run / pause button
+  document.getElementById('asmv-play').addEventListener('click', function () {
+    if (playTimer) {
+      stopPlay();
+      this.classList.remove('running');
+      this.textContent = '\u25ba Run';
+      return;
+    }
+    if (cur >= TOTAL) { cur = 0; traceLog.length = 0; jumpLog.length = 0; intLog.length = 0; render(0); }
+    this.classList.add('running');
+    this.textContent = '\u23f8 Pause';
+    playTimer = setInterval(() => {
+      if (cur < TOTAL) {
+        cur++;
+        render(cur);
+      } else {
+        stopPlay();
+        document.getElementById('asmv-play').classList.remove('running');
+        document.getElementById('asmv-play').textContent = '\u25ba Run';
+      }
+    }, 700);
+  });
+
+  // Stop checkbox
+  document.getElementById('asmv-stop-chk').addEventListener('change', function () {
+    if (this.checked) { stopPlay(); }
+  });
+
+  // ── ALU / BITS tab ──────────────────────────────────────────────────────────
+  // Maps mnemonic → which registers hold dest/src in our specific demo program
+  const ALU_REG_MAP = {
+    ADD: { dest:'AX', src:'CX' },
+    SUB: { dest:'AX', src:'CX' },
+    AND: { dest:'AX', src:'CX' },
+    OR:  { dest:'AX', src:'CX' },
+    XOR: { dest:'AX', src:'CX' },
+    CMP: { dest:'AX', src:'CX' },
+    DEC: { dest:'CX', srcVal:1 },
+    INC: { dest:'CX', srcVal:1 },
+  };
+  const FLAG_DETAIL_ALU = {
+    ZF:'Set when result = 0. Tested by JZ/JNZ.',
+    CF:'Carry or unsigned overflow.',
+    SF:'Sign flag — result bit 15 = 1.',
+    OF:'Signed overflow.',
+    PF:'Parity of low byte.',
+    AF:'Aux carry (BCD arithmetic).'
+  };
+
+  function renderAluPane(idx) {
+    const pane = document.getElementById('asmv-alu-pane');
+    if (!pane) return;
+    const step = TRACE[idx];
+    const prev = TRACE[Math.max(0, idx - 1)];
+    const mn = step.anatomy ? step.anatomy.mn : null;
+    const ALU_OPS = new Set(['ADD','SUB','ADC','SBB','AND','OR','XOR','CMP','TEST','NOT','NEG','INC','DEC','SHL','SHR','SAR','SAL','ROL','ROR']);
+
+    if (!mn || !ALU_OPS.has(mn)) {
+      pane.innerHTML = '<div class="asm-alu-empty">' +
+        (mn ? mn + ' does not use the ALU.<br>Step to an arithmetic or logic instruction.' :
+              'Step through the program to see the ALU bit view.') + '</div>';
+      return;
+    }
+
+    const info = ALU_REG_MAP[mn] || { dest:'AX', srcVal:0 };
+    const aVal = info.dest ? (prev.regs[info.dest] || 0) : 0;
+    const bVal = info.srcVal !== undefined ? info.srcVal : (info.src ? (prev.regs[info.src] || 0) : 0);
+    const rVal = info.dest ? (step.regs[info.dest] || 0) : 0;
+    const flags = step.flags;
+
+    function toBits(v) { return Array.from({length:16}, (_,i) => (v >> (15 - i)) & 1); }
+    const aBits = toBits(aVal), bBits = toBits(bVal), rBits = toBits(rVal);
+    const changed = rBits.map((b, i) => b !== aBits[i]);
+    const changedCount = changed.filter(Boolean).length;
+
+    function bits(arr, colorCls, isResult) {
+      return arr.map((b, i) => {
+        var cls = 'asm-alu-bit';
+        if (isResult) {
+          cls += changed[i] ? (b ? ' asm-alu-bit--chg1' : ' asm-alu-bit--chg0') : (b ? ' asm-alu-bit--1 asm-alu-bit--result' : ' asm-alu-bit--0');
+        } else {
+          cls += b ? (' asm-alu-bit--1 ' + colorCls) : ' asm-alu-bit--0';
+        }
+        return '<div class="' + cls + '">' + b + '</div>';
+      }).join('');
+    }
+
+    function row(label, arr, colorCls, val, isResult) {
+      return '<div class="asm-alu-row">' +
+        '<div class="asm-alu-rlbl' + (isResult ? ' asm-alu-rlbl--result' : ' ' + colorCls) + '">' + label + '</div>' +
+        '<div class="asm-alu-bits">' + bits(arr, colorCls, isResult) + '</div>' +
+        '<span class="asm-alu-val' + (isResult ? ' asm-alu-val--result' : '') + '">' + h4(val) + '</span>' +
+      '</div>';
+    }
+
+    var posRow = '<div class="asm-alu-row"><div class="asm-alu-rlbl"></div><div class="asm-alu-bits">' +
+      Array.from({length:16}, (_,i) => '<div class="asm-alu-poslbl">' + (15-i) + '</div>').join('') + '</div></div>';
+
+    var flagHTML = ['ZF','CF','SF','OF','PF','AF'].map(function(f) {
+      var set = !!flags[f];
+      return '<div class="asm-alu-fc' + (set ? ' asm-alu-fc--set' : '') + '">' +
+        '<div class="asm-alu-fc-hdr"><div class="asm-alu-fc-dot"></div>' +
+        '<span class="asm-alu-fc-name">' + f + '=' + (set?'1':'0') + '</span></div>' +
+        '<div class="asm-alu-fc-desc">' + (FLAG_DETAIL_ALU[f]||'') + '</div></div>';
+    }).join('');
+
+    var srcLabel = info.src || '1';
+    pane.innerHTML =
+      '<div class="asm-alu">' +
+        '<div class="asm-alu-title">ALU Operation: <span class="asm-alu-mn">' + mn + '</span></div>' +
+        '<div class="asm-alu-grid">' +
+          posRow +
+          row(info.dest||'A', aBits, 'asm-alu-teal', aVal, false) +
+          row(srcLabel, bBits, 'asm-alu-green', bVal, false) +
+          '<div class="asm-alu-divider"><span class="asm-alu-div-lbl">' + mn + '</span><div class="asm-alu-div-line"></div></div>' +
+          row('Result', rBits, '', rVal, true) +
+          '<div class="asm-alu-changed-note">' + changedCount + ' bit' + (changedCount!==1?'s':'') + ' changed</div>' +
+        '</div>' +
+        '<div class="asm-alu-fhdr">Flag Results</div>' +
+        '<div class="asm-alu-flags">' + flagHTML + '</div>' +
+      '</div>';
+  }
+
+  function isLight() {
+    return document.documentElement.getAttribute('data-theme') === 'light';
+  }
+
+  // ── REG HISTORY tab ─────────────────────────────────────────────────────────
+  var REG_COLORS = {
+    AX:'#00d4ff', BX:'#ff9d00', CX:'#00ff9d', DX:'#a070ff',
+    SI:'#ffe066', DI:'#ff4466', BP:'#4ec9b0', SP:'#9090c0', IP:'#e080ff'
+  };
+  var REG_DESCS = {
+    AX:'Accumulator', BX:'Base', CX:'Counter', DX:'Data',
+    SI:'Source Index', DI:'Dest Index', BP:'Base Pointer', SP:'Stack Pointer',
+    IP:'Instruction Ptr'
+  };
+  var HIST_GP = ['AX','BX','CX','DX','SI','DI','BP','SP'];
+
+  function buildRegSeries(reg, upTo) {
+    var values = [];
+    for (var i = 0; i <= upTo; i++) values.push(TRACE[i].regs[reg] || 0);
+    var changes = 0;
+    for (var j = 1; j < values.length; j++) if (values[j] !== values[j-1]) changes++;
+    var cur = values[values.length - 1];
+    var mn = Math.min.apply(null, values), mx = Math.max.apply(null, values);
+    return { reg: reg, values: values, changes: changes, cur: cur,
+             initial: values[0], min: mn, max: mx, color: REG_COLORS[reg] };
+  }
+
+  function sparklineSVG(values, color, W, H) {
+    var light = isLight();
+    var baseLine  = light ? '#cccccc' : '#2a2a2a';
+    var dotStroke = light ? '#ffffff' : '#111111';
+    var n = values.length;
+    var mn = Math.min.apply(null, values), mx = Math.max.apply(null, values);
+    var range = mx - mn || 1;
+    var px = function(i) { return n <= 1 ? W/2 : (i / (n-1)) * W; };
+    var py = function(v) { return H - 4 - ((v - mn) / range) * (H - 10); };
+    var changes = 0;
+    for (var k = 1; k < n; k++) if (values[k] !== values[k-1]) changes++;
+
+    var pts = values.map(function(v,i){ return px(i).toFixed(1)+','+py(v).toFixed(1); }).join(' ');
+    var area = '0,'+H+' '+pts+' '+px(n-1).toFixed(1)+','+H;
+
+    var s = '<svg width="100%" height="'+H+'" viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="none" style="display:block">';
+    s += '<line x1="0" y1="'+(H-1)+'" x2="'+W+'" y2="'+(H-1)+'" stroke="'+baseLine+'" stroke-width="1"/>';
+    if (n > 1 && changes > 0) {
+      s += '<polygon points="'+area+'" fill="'+color+'" fill-opacity="0.1"/>';
+      s += '<polyline points="'+pts+'" fill="none" stroke="'+color+'" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round" stroke-opacity="0.9"/>';
+      for (var ci = 1; ci < n; ci++) {
+        if (values[ci] !== values[ci-1])
+          s += '<circle cx="'+px(ci).toFixed(1)+'" cy="'+py(values[ci]).toFixed(1)+'" r="2.2" fill="'+color+'" fill-opacity="0.9"/>';
+      }
+      s += '<circle cx="'+px(n-1).toFixed(1)+'" cy="'+py(values[n-1]).toFixed(1)+'" r="3.5" fill="'+color+'" stroke="'+dotStroke+'" stroke-width="1.5"/>';
+    } else if (n > 1) {
+      s += '<line x1="0" y1="'+(H/2)+'" x2="'+W+'" y2="'+(H/2)+'" stroke="'+color+'" stroke-width="1" stroke-opacity="0.22" stroke-dasharray="4 3"/>';
+    }
+    s += '</svg>';
+    return s;
+  }
+
+  function renderRegHistory(idx) {
+    var pane = document.getElementById('asmv-history-pane');
+    if (!pane) return;
+
+    if (idx === 0) {
+      pane.innerHTML =
+        '<div class="asm-hist-empty">' +
+          '<div class="asm-hist-empty-icon">\u223c</div>' +
+          '<div class="asm-hist-empty-title">Register history</div>' +
+          '<div class="asm-hist-empty-sub">Step through the program to see how each register changes over time.</div>' +
+        '</div>';
+      return;
+    }
+
+    function regCard(s) {
+      var light = isLight();
+      var changed = s.cur !== s.initial;
+      var borderCol = changed ? s.color + '55' : (light ? '#bbbbbb' : '#2a2a2a');
+      var valCol    = changed ? s.color : (light ? '#888899' : '#556070');
+      var html = '<div class="asm-hist-card" style="border-color:'+borderCol+'">';
+      html += '<div class="asm-hist-hdr"><span class="asm-hist-rname" style="color:'+s.color+'">'+s.reg+'</span><span class="asm-hist-rdesc">'+REG_DESCS[s.reg]+'</span></div>';
+      html += '<div class="asm-hist-val"><span class="asm-hist-hex" style="color:'+valCol+'">'+h4(s.cur)+'</span><span class="asm-hist-dec">'+s.cur+'</span>';
+      if (s.changes > 0) html += '<span class="asm-hist-cnt">'+s.changes+'\xd7</span>';
+      html += '</div>';
+      html += sparklineSVG(s.values, s.color, 200, 40);
+      if (s.changes > 0) {
+        html += '<div class="asm-hist-mm"><span style="color:'+s.color+'80">\u2193 '+h4(s.min)+'</span><span style="color:'+s.color+'80">'+h4(s.max)+' \u2191</span></div>';
+      }
+      html += '</div>';
+      return html;
+    }
+
+    function ipCard(s) {
+      var html = '<div class="asm-hist-card asm-hist-ip" style="border-color:'+s.color+'55">';
+      html += '<div class="asm-hist-hdr"><div style="display:flex;align-items:baseline;gap:8px"><span class="asm-hist-rname" style="color:'+s.color+'">IP</span><span class="asm-hist-rdesc">Instruction Pointer \u2014 '+idx+' steps</span></div>';
+      html += '<span class="asm-hist-ip-cur" style="color:'+s.color+'">'+h4(s.cur)+'<span class="asm-hist-ip-dec"> ('+s.cur+')</span></span></div>';
+      html += sparklineSVG(s.values, s.color, 400, 48);
+      if (s.changes > 0) {
+        html += '<div class="asm-hist-mm"><span style="color:'+s.color+'80">\u2193 '+h4(s.min)+' ('+s.min+')</span><span style="color:'+s.color+'80">'+h4(s.max)+' ('+s.max+') \u2191</span></div>';
+      }
+      html += '</div>';
+      return html;
+    }
+
+    var gpSeries = HIST_GP.map(function(r){ return buildRegSeries(r, idx); });
+    var ipSeries = buildRegSeries('IP', idx);
+
+    var html = '<div class="asm-hist"><div class="asm-hist-grid">';
+    gpSeries.forEach(function(s){ html += regCard(s); });
+    html += '</div>' + ipCard(ipSeries) + '</div>';
+    pane.innerHTML = html;
+  }
+
+  // ── FLOWCHART tab ───────────────────────────────────────────────────────────
+  function renderFlowchart(idx) {
+    var pane = document.getElementById('asmv-flow-pane');
+    if (!pane) return;
+
+    function stepToNode(i) {
+      if (i <= 0) return 'start';
+      var line = TRACE[i] ? TRACE[i].line : null;
+      if (!line) return 'start';
+      if (line === 10 || line === 11) return 'init';
+      if (line === 14 || line === 15) return 'body';
+      if (line === 16) return 'cond';
+      if (line === 19) return 'exit';
+      if (line === 20) return 'end';
+      return 'start';
+    }
+
+    var visited = {};
+    for (var i = 0; i <= idx; i++) visited[stepToNode(i)] = true;
+    var cur = stepToNode(idx);
+
+    var light = isLight();
+    function ns(id) {
+      if (id === cur)  return light
+        ? { fill:'rgba(26,86,219,0.12)',  stroke:'#1a56db', sw:'2' }
+        : { fill:'rgba(14,99,156,0.3)',   stroke:'#1177bb', sw:'2' };
+      if (visited[id]) return light
+        ? { fill:'rgba(13,110,110,0.1)',  stroke:'#0d6e6e', sw:'1' }
+        : { fill:'rgba(13,158,138,0.1)',  stroke:'#0d9e8a', sw:'1' };
+      return light
+        ? { fill:'#eeeeee', stroke:'#aaaaaa', sw:'1' }
+        : { fill:'#252526', stroke:'#3c3c3c', sw:'1' };
+    }
+    function tc(id) {
+      if (id === cur)   return light ? '#1a56db' : '#60b8e0';
+      if (visited[id])  return light ? '#0d6e6e' : '#0d9e8a';
+      return light ? '#666' : '#555';
+    }
+
+    // Layout — all nodes centred on X=110, W=200px viewBox
+    // Nodes:  start(110,22) init(110,72) cond(110,142) body(110,212) exit(110,282) end(110,342)
+    // Back-edge runs up the LEFT side (x=30), from body-bottom to cond-top
+    // NO-branch label is on the right of the diamond
+
+    var W = 200, H = 375;
+    var CX = 100;        // centre x of all nodes
+    var NW = 140;        // node rect width
+    var NX = CX - NW/2; // rect left edge = 30
+    var ac = light ? '#999999' : '#4a4a4a';
+    var als = 'stroke="'+ac+'" stroke-width="1.2" fill="none"';
+
+    function ah(x, y, dir) {
+      var p;
+      if (dir==='down') p=(x-4)+','+(y-7)+' '+x+','+y+' '+(x+4)+','+(y-7);
+      if (dir==='up')   p=(x-4)+','+(y+7)+' '+x+','+y+' '+(x+4)+','+(y+7);
+      return '<polygon points="'+p+'" fill="'+ac+'"/>';
+    }
+
+    function rectNode(y, h, id, lines) {
+      var s=ns(id); var c=tc(id);
+      var html='<rect x="'+NX+'" y="'+y+'" width="'+NW+'" height="'+h+'" rx="3" fill="'+s.fill+'" stroke="'+s.stroke+'" stroke-width="'+s.sw+'"/>';
+      if (lines.length===1) {
+        html+='<text x="'+CX+'" y="'+(y+h/2+4)+'" text-anchor="middle" font-size="9" fill="'+c+'" font-family="Consolas,\'Courier New\',monospace">'+lines[0]+'</text>';
+      } else {
+        var ly=y+h/2-5;
+        lines.forEach(function(l){
+          html+='<text x="'+CX+'" y="'+ly+'" text-anchor="middle" font-size="8.5" fill="'+c+'" font-family="Consolas,\'Courier New\',monospace">'+l+'</text>';
+          ly+=13;
+        });
+      }
+      return html;
+    }
+
+    function ellipseNode(cy, id, label) {
+      var s=ns(id); var c=tc(id);
+      return '<ellipse cx="'+CX+'" cy="'+cy+'" rx="48" ry="14" fill="'+s.fill+'" stroke="'+s.stroke+'" stroke-width="'+s.sw+'"/>'+
+             '<text x="'+CX+'" y="'+(cy+4)+'" text-anchor="middle" font-size="9" fill="'+c+'" font-family="\'Segoe UI\',sans-serif" letter-spacing="1">'+label+'</text>';
+    }
+
+    function diamondNode(cy, hw, hh, id, label) {
+      var s=ns(id); var c=tc(id);
+      var pts=CX+','+(cy-hh)+' '+(CX+hw)+','+cy+' '+CX+','+(cy+hh)+' '+(CX-hw)+','+cy;
+      return '<polygon points="'+pts+'" fill="'+s.fill+'" stroke="'+s.stroke+'" stroke-width="'+s.sw+'"/>'+
+             '<text x="'+CX+'" y="'+(cy+4)+'" text-anchor="middle" font-size="9" fill="'+c+'" font-family="Consolas,\'Courier New\',monospace">'+label+'</text>';
+    }
+
+    var svg='<svg viewBox="0 0 '+W+' '+H+'" width="100%" style="display:block">';
+
+    // ── Arrows (drawn before nodes so nodes sit on top) ──
+
+    // START(cy=22,ry=14) → INIT(y=50): gap 14
+    svg+='<line x1="'+CX+'" y1="36" x2="'+CX+'" y2="50" '+als+'/>'+ah(CX,50,'down');
+
+    // INIT(y=50,h=30 → bottom=80) → COND(cy=120,top=100): gap 20
+    svg+='<line x1="'+CX+'" y1="80" x2="'+CX+'" y2="100" '+als+'/>'+ah(CX,100,'down');
+
+    // COND(cy=120,hh=20,bottom=140) → BODY(y=160,h=30,top=160)
+    // Straight down: label "YES" on left
+    svg+='<line x1="'+CX+'" y1="140" x2="'+CX+'" y2="160" '+als+'/>'+ah(CX,160,'down');
+    svg+='<text x="'+(CX+5)+'" y="153" font-size="8" fill="'+ac+'" font-family="sans-serif">YES</text>';
+
+    // COND right tip → "NO" label, then line goes right and down to EXIT(y=230)
+    // Right tip of diamond: (CX+hw, cy) = (160, 120)
+    // Exit node top: (CX, 230)
+    // Route: right tip → right → down → centre → EXIT top
+    svg+='<path d="M '+(CX+40)+' 120 L '+(W-8)+' 120 L '+(W-8)+' 230 L '+CX+' 230" '+als+'/>'+ah(CX,230,'down');
+    svg+='<text x="'+(CX+44)+'" y="117" font-size="8" fill="'+ac+'" font-family="sans-serif">NO</text>';
+
+    // BODY(y=160,h=30,bottom=190) back-edge → COND top (CX,100)
+    // Route: bottom-centre → down → far-left rail → up → COND top
+    svg+='<path d="M '+CX+' 190 L '+CX+' 205 L 10 205 L 10 100 L '+CX+' 100" '+als+'/>'+ah(CX,100,'down');
+
+    // EXIT(y=230,h=30,bottom=260) → END(cy=295)
+    svg+='<line x1="'+CX+'" y1="260" x2="'+CX+'" y2="281" '+als+'/>'+ah(CX,281,'down');
+
+    // ── Nodes ──
+    svg+=ellipseNode(22,   'start', 'START');
+    svg+=rectNode(50,  30, 'init',  ['mov cx, 2  /  mov ax, 0']);
+    svg+=diamondNode(120, 40, 20, 'cond', 'CX \u2260 0?');
+    svg+=rectNode(160, 30, 'body',  ['add ax, cx  /  dec cx']);
+    svg+=rectNode(230, 30, 'exit',  ['mov ah, 4Ch  /  int 21h']);
+    svg+=ellipseNode(295, 'end', 'END');
+
+    svg+='</svg>';
+    pane.innerHTML='<div class="asm-flow">'+svg+'</div>';
+  }
+
+  // ── INTERRUPTS tab ──────────────────────────────────────────────────────────
+  var INT_NAMES = {
+    0x00:'Divide Error', 0x01:'Single Step', 0x02:'NMI', 0x03:'Breakpoint',
+    0x04:'Overflow', 0x05:'Bound Range', 0x06:'Invalid Opcode', 0x08:'Timer',
+    0x09:'Keyboard', 0x10:'Video (BIOS)', 0x13:'Disk (BIOS)', 0x16:'Keyboard (BIOS)',
+    0x1A:'Time-of-Day', 0x21:'DOS Services', 0x33:'Mouse'
+  };
+  var DOS_SERVICES = {
+    0x00:'Terminate Program', 0x01:'Read Char', 0x02:'Write Char',
+    0x09:'Print String', 0x0A:'Buffered Input', 0x25:'Set Int Vector',
+    0x35:'Get Int Vector', 0x3C:'Create File', 0x3D:'Open File',
+    0x3E:'Close File', 0x3F:'Read File', 0x40:'Write File', 0x4C:'Terminate (EXIT)'
+  };
+
+  function renderIntPane(idx) {
+    var pane = document.getElementById('asmv-int-pane');
+    if (!pane) return;
+    var step = TRACE[idx];
+    var mn = step.anatomy ? step.anatomy.mn : null;
+
+    if (mn !== 'INT' && mn !== 'IRET') {
+      pane.innerHTML = '<div class="asm-int-empty">Step to an INT or IRET instruction to see the interrupt view.</div>';
+      return;
+    }
+
+    var info = step.intInfo || {};
+    var vec = info.vector !== undefined ? info.vector : null;
+    var ivtAddr = info.ivtAddr !== undefined ? info.ivtAddr : (vec !== null ? vec * 4 : null);
+    var handler = info.handler || '?';
+    var svc = info.service || null;
+    var pushed = info.stackPushed || [];
+    var spBefore = info.spBefore !== undefined ? info.spBefore : step.regs.SP + 6;
+    var spAfter  = info.spAfter  !== undefined ? info.spAfter  : step.regs.SP;
+
+    // Accumulate int history
+    if (intLog.length === 0 || intLog[intLog.length - 1].idx !== idx) {
+      intLog.push({ idx: idx, vector: vec, desc: svc ? svc.name : (vec !== null ? INT_NAMES[vec] : '?') });
+    }
+
+    var vecHex = vec !== null ? '0x' + vec.toString(16).toUpperCase().padStart(2,'0') : '?';
+    var ivtHex = ivtAddr !== null ? '0x' + ivtAddr.toString(16).toUpperCase().padStart(4,'0') : '?';
+    var intName = vec !== null ? (INT_NAMES[vec] || 'User Defined') : '?';
+
+    // Stack snapshot rows
+    var stackHTML = pushed.map(function(p) {
+      return '<div class="asm-int-stack-row">' +
+        '<span class="asm-int-sr-reg">' + p.reg + '</span>' +
+        '<span class="asm-int-sr-val">0x' + p.val.toString(16).toUpperCase().padStart(4,'0') + '</span>' +
+      '</div>';
+    }).join('');
+
+    // DOS service card (if INT 21h)
+    var svcHTML = '';
+    if (svc) {
+      svcHTML =
+        '<div class="asm-int-section-hdr">DOS Service (INT 21h)</div>' +
+        '<div class="asm-int-svc">' +
+          '<div class="asm-int-svc-row"><span class="asm-int-svc-k">AH</span><span class="asm-int-svc-v">0x' + svc.ah.toString(16).toUpperCase().padStart(2,'0') + '</span><span class="asm-int-svc-name">' + svc.name + '</span></div>' +
+          (svc.alLabel ? '<div class="asm-int-svc-row"><span class="asm-int-svc-k">AL</span><span class="asm-int-svc-v">0x' + svc.alVal.toString(16).toUpperCase().padStart(2,'0') + '</span><span class="asm-int-svc-name">' + svc.alLabel + ' = ' + svc.alVal + '</span></div>' : '') +
+        '</div>';
+    }
+
+    // History
+    var histHTML = intLog.map(function(e) {
+      var vhex = e.vector !== null ? '0x' + e.vector.toString(16).toUpperCase().padStart(2,'0') : '?';
+      return '<div class="asm-int-hist-row">' +
+        '<span class="asm-int-hist-step">Step ' + e.idx + '</span>' +
+        '<span class="asm-int-hist-vec">INT ' + vhex + '</span>' +
+        '<span class="asm-int-hist-desc">' + (e.desc || '') + '</span>' +
+      '</div>';
+    }).join('');
+
+    pane.innerHTML =
+      '<div class="asm-int">' +
+        '<div class="asm-int-title">' +
+          '<span class="asm-int-mn">' + mn + ' ' + vecHex + '</span>' +
+          '<span class="asm-int-name">' + intName + '</span>' +
+        '</div>' +
+
+        '<div class="asm-int-section-hdr">Interrupt Vector Table</div>' +
+        '<div class="asm-int-ivt">' +
+          '<div class="asm-int-ivt-row"><span class="asm-int-ivt-k">Vector</span><span class="asm-int-ivt-v">' + vecHex + ' (' + (vec||0) + ')</span></div>' +
+          '<div class="asm-int-ivt-row"><span class="asm-int-ivt-k">IVT address</span><span class="asm-int-ivt-v">' + ivtHex + '</span></div>' +
+          '<div class="asm-int-ivt-row"><span class="asm-int-ivt-k">Handler</span><span class="asm-int-ivt-v">' + handler + '</span></div>' +
+        '</div>' +
+
+        '<div class="asm-int-section-hdr">Stack Operations (SP: 0x' + spBefore.toString(16).toUpperCase() + ' \u2192 0x' + spAfter.toString(16).toUpperCase() + ')</div>' +
+        '<div class="asm-int-stack">' + (stackHTML || '<span class="asm-int-empty-note">—</span>') + '</div>' +
+
+        '<div class="asm-int-section-hdr">Flag Effects</div>' +
+        '<div class="asm-int-flags">' +
+          '<div class="asm-int-flag-card asm-int-flag--cleared"><div class="asm-int-flag-name">IF</div><div class="asm-int-flag-val">0</div><div class="asm-int-flag-note">Interrupts disabled</div></div>' +
+          '<div class="asm-int-flag-card asm-int-flag--cleared"><div class="asm-int-flag-name">TF</div><div class="asm-int-flag-val">0</div><div class="asm-int-flag-note">Trap disabled</div></div>' +
+        '</div>' +
+
+        svcHTML +
+
+        '<div class="asm-int-section-hdr">Interrupt History</div>' +
+        '<div class="asm-int-hist">' + (histHTML || '<span class="asm-int-empty-note">No interrupts yet.</span>') + '</div>' +
+      '</div>';
+  }
+
+  // ── JUMPS tab ────────────────────────────────────────────────────────────────
+  var JUMP_META = {
+    JNZ:  { full: 'Jump if Not Zero',       condition: 'ZF=0', flags: ['ZF'], needed: {ZF:0} },
+    JNE:  { full: 'Jump if Not Equal',      condition: 'ZF=0', flags: ['ZF'], needed: {ZF:0} },
+    JZ:   { full: 'Jump if Zero',           condition: 'ZF=1', flags: ['ZF'], needed: {ZF:1} },
+    JE:   { full: 'Jump if Equal',          condition: 'ZF=1', flags: ['ZF'], needed: {ZF:1} },
+    JC:   { full: 'Jump if Carry',          condition: 'CF=1', flags: ['CF'], needed: {CF:1} },
+    JB:   { full: 'Jump if Below',          condition: 'CF=1', flags: ['CF'], needed: {CF:1} },
+    JNC:  { full: 'Jump if No Carry',       condition: 'CF=0', flags: ['CF'], needed: {CF:0} },
+    JNB:  { full: 'Jump if Not Below',      condition: 'CF=0', flags: ['CF'], needed: {CF:0} },
+    JS:   { full: 'Jump if Sign',           condition: 'SF=1', flags: ['SF'], needed: {SF:1} },
+    JNS:  { full: 'Jump if No Sign',        condition: 'SF=0', flags: ['SF'], needed: {SF:0} },
+    JO:   { full: 'Jump if Overflow',       condition: 'OF=1', flags: ['OF'], needed: {OF:1} },
+    JNO:  { full: 'Jump if No Overflow',    condition: 'OF=0', flags: ['OF'], needed: {OF:0} },
+    JP:   { full: 'Jump if Parity',         condition: 'PF=1', flags: ['PF'], needed: {PF:1} },
+    JNP:  { full: 'Jump if No Parity',      condition: 'PF=0', flags: ['PF'], needed: {PF:0} },
+    JL:   { full: 'Jump if Less',           condition: 'SF≠OF', flags: ['SF','OF'], needed: null },
+    JNL:  { full: 'Jump if Not Less',       condition: 'SF=OF', flags: ['SF','OF'], needed: null },
+    JLE:  { full: 'Jump if Less or Equal',  condition: 'ZF=1 or SF≠OF', flags: ['ZF','SF','OF'], needed: null },
+    JNLE: { full: 'Jump if Not ≤',          condition: 'ZF=0 and SF=OF', flags: ['ZF','SF','OF'], needed: null },
+    JCXZ: { full: 'Jump if CX=0',           condition: 'CX=0', flags: [], needed: null },
+    LOOP: { full: 'Loop while CX≠0',        condition: 'CX≠0', flags: [], needed: null },
+    JMP:  { full: 'Unconditional Jump',     condition: 'always', flags: [], needed: null },
+  };
+
+  function renderJumpsPane(idx) {
+    var pane = document.getElementById('asmv-jumps-pane');
+    if (!pane) return;
+    var step = TRACE[idx];
+    var mn = step.anatomy ? step.anatomy.mn : null;
+    var JUMP_OPS = new Set(Object.keys(JUMP_META));
+
+    if (!mn || !JUMP_OPS.has(mn)) {
+      pane.innerHTML = '<div class="asm-jmp-empty">Step to a jump instruction to see the branch decision view.</div>';
+      return;
+    }
+
+    var op = step.anatomy ? (step.anatomy.op || '') : '';
+    var isUncond = (mn === 'JMP');
+    var taken = isUncond ? true : !op.toLowerCase().includes('not ');
+    var meta = JUMP_META[mn] || { full: mn, condition: '?', flags: [], needed: null };
+    var flags = step.flags;
+    var ip = step.regs.IP;
+
+    // Accumulate jump history
+    if (jumpLog.length === 0 || jumpLog[jumpLog.length - 1].idx !== idx) {
+      jumpLog.push({ idx: idx, mn: mn, taken: taken, ip: ip });
+    }
+
+    // Condition flag cards
+    var condHTML;
+    if (meta.flags.length === 0) {
+      condHTML = '<div class="asm-jmp-cond-uncond">No flag condition — always executes</div>';
+    } else {
+      condHTML = meta.flags.map(function(f) {
+        var val = flags[f];
+        var needed = meta.needed ? meta.needed[f] : null;
+        var matches = needed !== null ? (val === needed) : null;
+        var cls = 'asm-jmp-fc' + (matches === true ? ' asm-jmp-fc--match' : matches === false ? ' asm-jmp-fc--fail' : '');
+        return '<div class="' + cls + '">' +
+          '<div class="asm-jmp-fc-name">' + f + '</div>' +
+          '<div class="asm-jmp-fc-val">' + val + '</div>' +
+          (needed !== null ? '<div class="asm-jmp-fc-req">needs ' + needed + '</div>' : '') +
+        '</div>';
+      }).join('');
+    }
+
+    // Jump history rows
+    var histHTML = jumpLog.map(function(e) {
+      return '<div class="asm-jmp-hist-row">' +
+        '<span class="asm-jmp-hist-step">Step ' + e.idx + '</span>' +
+        '<span class="asm-jmp-hist-mn">' + e.mn + '</span>' +
+        '<span class="asm-jmp-badge ' + (e.taken ? 'asm-jmp-badge--taken' : 'asm-jmp-badge--skip') + '">' + (e.taken ? 'TAKEN' : 'SKIP') + '</span>' +
+        '<span class="asm-jmp-hist-ip">IP=0x' + e.ip.toString(16).toUpperCase().padStart(4,'0') + '</span>' +
+      '</div>';
+    }).join('');
+
+    pane.innerHTML =
+      '<div class="asm-jmp">' +
+        '<div class="asm-jmp-title">' +
+          '<span class="asm-jmp-mn">' + mn + '</span>' +
+          '<span class="asm-jmp-full">' + meta.full + '</span>' +
+          '<span class="asm-jmp-badge ' + (taken ? 'asm-jmp-badge--taken' : 'asm-jmp-badge--skip') + '">' + (taken ? '\u2191 TAKEN' : '\u2192 SKIP') + '</span>' +
+        '</div>' +
+        '<div class="asm-jmp-section-hdr">Condition</div>' +
+        '<div class="asm-jmp-cond-label">' + meta.condition + '</div>' +
+        '<div class="asm-jmp-flags">' + condHTML + '</div>' +
+        '<div class="asm-jmp-result ' + (taken ? 'asm-jmp-result--taken' : 'asm-jmp-result--skip') + '">' +
+          '<span class="asm-jmp-result-lbl">' + (taken ? 'Jumped to' : 'Fell through to') + '</span>' +
+          '<span class="asm-jmp-result-ip">IP = 0x' + ip.toString(16).toUpperCase().padStart(4,'0') + '</span>' +
+        '</div>' +
+        '<div class="asm-jmp-section-hdr">Jump History</div>' +
+        '<div class="asm-jmp-hist">' + (histHTML || '<span class="asm-jmp-hist-empty">No jumps yet.</span>') + '</div>' +
+      '</div>';
+  }
+
+  // Tab switching — default to flowchart
+  var activeTab = 'flowchart';
+  (function() {
+    document.querySelectorAll('.asm-mf-tab').forEach(function(b) {
+      b.classList.toggle('asm-mf-tab--active', b.dataset.asmtab === 'flowchart');
+    });
+    var fp = document.getElementById('asmv-flow-pane');
+    if (fp) fp.classList.add('asm-mf-overlay--active');
+  })();
+
+  document.querySelectorAll('.asm-mf-tab').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      activeTab = this.dataset.asmtab;
+      document.querySelectorAll('.asm-mf-tab').forEach(function(b) { b.classList.remove('asm-mf-tab--active'); });
+      this.classList.add('asm-mf-tab--active');
+      var aluPane = document.getElementById('asmv-alu-pane');
+      var jmpPane = document.getElementById('asmv-jumps-pane');
+      var intPane = document.getElementById('asmv-int-pane');
+      var flowPane = document.getElementById('asmv-flow-pane');
+      var histPane = document.getElementById('asmv-history-pane');
+      if (aluPane)  aluPane.classList.toggle('asm-mf-overlay--active', activeTab === 'alu');
+      if (jmpPane)  jmpPane.classList.toggle('asm-mf-overlay--active', activeTab === 'jumps');
+      if (intPane)  intPane.classList.toggle('asm-mf-overlay--active', activeTab === 'interrupts');
+      if (flowPane) flowPane.classList.toggle('asm-mf-overlay--active', activeTab === 'flowchart');
+      if (histPane) histPane.classList.toggle('asm-mf-overlay--active', activeTab === 'history');
+      if (activeTab === 'alu') renderAluPane(cur);
+      else if (activeTab === 'jumps') renderJumpsPane(cur);
+      else if (activeTab === 'interrupts') renderIntPane(cur);
+      else if (activeTab === 'flowchart') renderFlowchart(cur);
+      else if (activeTab === 'history') renderRegHistory(cur);
+    });
+  });
+
+  // ── Drag & resize for floating debugger card ────────────────────────────────
+  (function() {
+    var card = document.getElementById('asmv-dbg-card');
+    var hdr  = document.getElementById('asmv-dbg-hdr');
+    var rsz  = document.getElementById('asmv-dbg-resize');
+    if (!card || !hdr) return;
+
+    var dragging = false, resizing = false;
+    var dragOffX = 0, dragOffY = 0;
+    var rsStartX, rsStartY, rsStartW, rsStartH;
+
+    function toAbsolute() {
+      var appRect  = card.parentElement.getBoundingClientRect();
+      var cardRect = card.getBoundingClientRect();
+      card.style.right  = 'auto';
+      card.style.bottom = 'auto';
+      card.style.left   = (cardRect.left - appRect.left) + 'px';
+      card.style.top    = (cardRect.top  - appRect.top)  + 'px';
+      card.style.width  = card.offsetWidth  + 'px';
+      card.style.height = card.offsetHeight + 'px';
+    }
+
+    hdr.addEventListener('mousedown', function(e) {
+      if (e.target.closest('button,input,label,select')) return;
+      toAbsolute();
+      dragging = true;
+      dragOffX = e.clientX - card.getBoundingClientRect().left;
+      dragOffY = e.clientY - card.getBoundingClientRect().top;
+      e.preventDefault();
+    });
+
+    if (rsz) {
+      rsz.addEventListener('mousedown', function(e) {
+        toAbsolute();
+        resizing = true;
+        rsStartX = e.clientX; rsStartY = e.clientY;
+        rsStartW = card.offsetWidth; rsStartH = card.offsetHeight;
+        e.preventDefault(); e.stopPropagation();
+      });
+    }
+
+    document.addEventListener('mousemove', function(e) {
+      if (dragging) {
+        var appRect = card.parentElement.getBoundingClientRect();
+        var newL = e.clientX - appRect.left - dragOffX;
+        var newT = e.clientY - appRect.top  - dragOffY;
+        newL = Math.max(0, Math.min(newL, appRect.width  - card.offsetWidth));
+        newT = Math.max(0, Math.min(newT, appRect.height - card.offsetHeight));
+        card.style.left = newL + 'px';
+        card.style.top  = newT + 'px';
+      }
+      if (resizing) {
+        var dw = e.clientX - rsStartX;
+        var dh = e.clientY - rsStartY;
+        card.style.width  = Math.max(300, rsStartW + dw) + 'px';
+        card.style.height = Math.max(160, rsStartH + dh) + 'px';
+      }
+    });
+
+    document.addEventListener('mouseup', function() {
+      dragging = false; resizing = false;
+    });
+  })();
+
+  render(0);
+
+  // Re-render active pane when the site theme toggles
+  new MutationObserver(function() {
+    if (activeTab === 'flowchart') renderFlowchart(cur);
+    else if (activeTab === 'history') renderRegHistory(cur);
+    else if (activeTab === 'alu') renderAluPane(cur);
+    else if (activeTab === 'jumps') renderJumpsPane(cur);
+    else if (activeTab === 'interrupts') renderIntPane(cur);
+  }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
 })();

@@ -29,6 +29,18 @@
 </head>
 <body>
 
+  <!-- ==================== PRODUCT SWITCHER ==================== -->
+  <div id="product-switcher">
+    <button class="prod-tab prod-tab--active" data-prod="cs">
+      <img src="favicon.png" class="prod-tab-favicon" alt="">
+      <span>CS Visualizer</span>
+    </button>
+    <button class="prod-tab" data-prod="asm">
+      <span class="prod-tab-asm-icon">ASM</span>
+      <span>ASM Visualizer</span>
+    </button>
+  </div>
+
   <!-- ==================== NAV ==================== -->
   <nav id="navbar">
     <a href="#" class="nav-logo">
@@ -44,6 +56,9 @@
     </div>
   </nav>
 
+  <!-- ==================== CS PAGE ==================== -->
+  <div id="page-cs">
+
   <!-- ==================== HERO ==================== -->
   <section id="hero">
     <div class="hero-inner">
@@ -55,23 +70,31 @@
         </h1>
 
         <div class="hero-langs">
-          <span class="hero-langs-label">Supports</span>
-          <div class="hero-lang-item">
-            <i class="devicon-csharp-plain"></i>
-            <span>C#</span>
+          <div class="hero-langs-row">
+            <span class="hero-langs-label">Supports</span>
+            <div class="hero-lang-item">
+              <i class="devicon-csharp-plain"></i>
+              <span>C#</span>
+            </div>
+            <div class="hero-lang-item">
+              <i class="devicon-java-plain"></i>
+              <span>Java</span>
+            </div>
+            <div class="hero-lang-item">
+              <i class="devicon-python-plain"></i>
+              <span>Python</span>
+            </div>
           </div>
-          <div class="hero-lang-item">
-            <i class="devicon-java-plain"></i>
-            <span>Java</span>
-          </div>
-          <div class="hero-lang-item">
-            <i class="devicon-python-plain"></i>
-            <span>Python</span>
-          </div>
-          <div class="hero-lang-item hero-lang-item--soon">
-            <i class="devicon-javascript-plain"></i>
-            <span>JavaScript</span>
-            <span class="lang-coming-soon">Soon</span>
+          <div class="hero-langs-row">
+            <div class="hero-lang-item">
+              <i class="devicon-javascript-plain"></i>
+              <span>JavaScript</span>
+            </div>
+            <div class="hero-lang-item hero-lang-item--soon">
+              <i class="devicon-c-plain"></i>
+              <span>C</span>
+              <span class="lang-coming-soon">Soon</span>
+            </div>
           </div>
         </div>
 
@@ -302,6 +325,174 @@
       </div>
     </div>
   </footer>
+
+  </div><!-- /#page-cs -->
+
+  <!-- ==================== ASM PAGE ==================== -->
+  <div id="page-asm" style="display:none;">
+
+    <!-- HERO -->
+    <section id="asm-hero">
+      <div class="asm-hero-inner">
+        <h1 class="asm-hero-title">
+          Every instruction,<br>
+          <span class="hl">visualized.</span>
+        </h1>
+        <div class="asm-lang-row">
+          <div class="asm-lang-item"><span class="asm-lang-label">NASM</span></div>
+          <div class="asm-lang-item"><span class="asm-lang-label">MASM</span></div>
+          <div class="asm-lang-item"><span class="asm-lang-label">TASM</span></div>
+        </div>
+        <p class="asm-hero-sub">
+          Step through 8086 assembly with live register tracking,
+          memory layout diagrams, stack visualization, and more.
+        </p>
+        <div class="asm-hero-img-wrap">
+          <img
+            class="asm-hero-screenshot"
+            src="images/asm/asm%201%20dark.png"
+            alt="ASM Visualizer — editor, debugger, and flowchart view"
+          />
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEWS CAROUSEL -->
+    <section id="asm-visualizers">
+      <div class="section-header">
+        <div class="section-eyebrow">9 views</div>
+        <h2 class="section-title">Every layer of 8086,<br>rendered live.</h2>
+        <p class="section-sub">
+          From raw machine bytes to control-flow graphs. Step through your code and watch every concept unfold.
+        </p>
+      </div>
+
+      <div class="carousel-hint">
+        <i class="fa-solid fa-hand-pointer"></i> Tap to preview &nbsp;&middot;&nbsp; Swipe to browse
+      </div>
+
+      <div class="viz-carousel" id="asm-viz-carousel">
+        <div class="viz-carousel-track" id="asm-viz-carousel-track">
+
+          <div class="viz-card" data-asm-viz="adbg">
+            <div class="viz-icon">&#9881;</div>
+            <div class="viz-title">LIVE DEBUGGER</div>
+            <div class="viz-desc">See every register, flag, and memory byte update live as you step through.</div>
+          </div>
+
+          <div class="viz-card" data-asm-viz="aflow">
+            <div class="viz-icon">&#9671;</div>
+            <div class="viz-title">FLOWCHART</div>
+            <div class="viz-desc">Instantly visualize any block of code as a control-flow diagram.</div>
+          </div>
+
+          <div class="viz-card" data-asm-viz="adec">
+            <div class="viz-icon">&#8801;</div>
+            <div class="viz-title">INSTRUCTION DECODE</div>
+            <div class="viz-desc">Every instruction decoded — operands, affected flags, and raw machine bytes.</div>
+          </div>
+
+          <div class="viz-card" data-asm-viz="aflags">
+            <div class="viz-icon">&#9873;</div>
+            <div class="viz-title">ALU / BITS</div>
+            <div class="viz-desc">Watch every flag light up — see exactly which bits triggered ZF, CF, SF, and OF.</div>
+          </div>
+
+          <div class="viz-card" data-asm-viz="abranch">
+            <div class="viz-icon">&#8658;</div>
+            <div class="viz-title">BRANCH ANALYSIS</div>
+            <div class="viz-desc">See exactly which condition decides each branch and where IP lands next.</div>
+          </div>
+
+          <div class="viz-card" data-asm-viz="aint">
+            <div class="viz-icon">&#9889;</div>
+            <div class="viz-title">INTERRUPTS</div>
+            <div class="viz-desc">Each INT lights up the interrupt panel showing the service name, IVT entry, and stack snapshot.</div>
+          </div>
+
+          <div class="viz-card" data-asm-viz="ahist">
+            <div class="viz-icon">&#8767;</div>
+            <div class="viz-title">REGISTER HISTORY</div>
+            <div class="viz-desc">Watch every register's full journey — sparklines trace every value change from step 1 to now.</div>
+          </div>
+
+          <div class="viz-card" data-asm-viz="aheat">
+            <div class="viz-icon">&#9638;</div>
+            <div class="viz-title">MEMORY HEATMAP</div>
+            <div class="viz-desc">Every memory access mapped live — see exactly which bytes were read or written.</div>
+          </div>
+
+          <div class="viz-card" data-asm-viz="astep">
+            <div class="viz-icon">&#9654;</div>
+            <div class="viz-title">CPU STEP VIEW</div>
+            <div class="viz-desc">No more guessing. See exactly what your CPU does at every step.</div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="carousel-dots" id="asm-carousel-dots"></div>
+    </section>
+
+    <!-- DOWNLOAD -->
+    <section id="asm-download">
+      <div class="section-header">
+        <div class="section-eyebrow">download</div>
+        <h2 class="section-title">Get ASM Visualizer.</h2>
+        <p class="section-sub">
+          Full desktop experience — live debugger, all 9 views, and Monaco editor with NASM/MASM syntax.
+        </p>
+      </div>
+
+      <div class="platform-grid">
+        <a href="https://apps.microsoft.com/detail/9pmn99kq54b1?ocid=webpdpshare"
+           class="platform-card platform-card--link" target="_blank">
+          <span class="plat-logo"><i class="fab fa-windows"></i></span>
+          <h3>Windows</h3>
+          <span class="plat-sub">Microsoft Store</span>
+        </a>
+        <div class="platform-card platform-card--muted">
+          <span class="plat-logo"><i class="fab fa-apple"></i></span>
+          <h3>macOS</h3>
+          <span class="plat-sub plat-sub--soon">Coming Soon</span>
+        </div>
+      </div>
+
+      <div class="asm-dl-btn-row">
+        <a href="https://apps.microsoft.com/detail/9pmn99kq54b1?ocid=webpdpshare"
+           class="btn-install" target="_blank">
+          <i class="fab fa-microsoft"></i> Get from Microsoft Store
+        </a>
+      </div>
+    </section>
+
+    <footer>
+      <div class="footer-bottom">
+        <span>&copy; 2026 David Frucht</span>
+        <div class="footer-links">
+          <a href="#">Terms</a>
+          <a href="#">Privacy</a>
+          <a href="mailto:davidfruc@gmail.com">Contact</a>
+        </div>
+      </div>
+    </footer>
+
+  </div><!-- /#page-asm -->
+
+  <!-- ASM PREVIEW PANEL — outside #page-asm so position:fixed works on all mobile browsers -->
+  <div class="viz-preview" id="asm-viz-preview">
+    <div class="viz-preview-inner">
+      <button class="vp-close" id="asm-vp-close"><i class="fa-solid fa-xmark"></i></button>
+      <div class="vp-info">
+        <div class="vp-icon" id="asm-vp-icon"></div>
+        <div class="vp-title" id="asm-vp-title"></div>
+        <p class="vp-desc" id="asm-vp-desc"></p>
+      </div>
+      <div class="vp-screen">
+        <img id="asm-vp-img" class="vp-img" alt="">
+      </div>
+    </div>
+  </div>
 
   <!-- ==================== CONTACT MODAL ==================== -->
   <div id="contact-overlay">

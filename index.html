@@ -31,12 +31,20 @@
 
   <!-- ==================== NAV ==================== -->
   <nav id="navbar">
-    <a href="#" class="nav-logo">
-      <img src="favicon.png" class="nav-logo-mark" alt="CS Visualizer">
-      cs-visualizer
-    </a>
 
-    <ul class="nav-links">
+    <!-- LEFT: product switcher -->
+    <div class="nav-products">
+      <a href="#" class="nav-logo" id="nav-cs-btn">
+        <img src="favicon.png" class="nav-logo-mark" alt="CS Visualizer">
+        CS Visualizer
+      </a>
+      <button class="nav-asm-btn" id="nav-asm-btn">
+        <span class="prod-tab-asm-icon">ASM</span> ASM Visualizer
+      </button>
+    </div>
+
+    <!-- CENTER: section links (CS) -->
+    <ul class="nav-links" id="nav-links-cs">
       <li><a href="#testit">Try it</a></li>
       <li><a href="#visualizers">Visualizers</a></li>
       <li><a href="#download">Download</a></li>
@@ -44,14 +52,25 @@
       <li><a href="#extensions">Extensions</a></li>
     </ul>
 
+    <!-- CENTER: section links (ASM) -->
+    <ul class="nav-links" id="nav-links-asm" style="display:none;">
+      <li><a href="#asm-visualizers">Visualizers</a></li>
+      <li><a href="#asm-download">Download</a></li>
+    </ul>
+
+    <!-- RIGHT: actions -->
     <div class="nav-right">
       <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
         <i class="fa-solid fa-moon" id="theme-icon"></i>
       </button>
       <button class="btn btn-outline" id="contact-btn">Contact</button>
-      <a href="#download" class="btn btn-primary">Download</a>
+      <a href="#download" class="btn btn-primary" id="nav-download-btn">Download</a>
     </div>
+
   </nav>
+
+  <!-- ==================== CS PAGE ==================== -->
+  <div id="page-cs">
 
   <!-- ==================== HERO ==================== -->
   <section id="hero">
@@ -66,23 +85,31 @@
         </h1>
 
         <div class="hero-langs">
-          <span class="hero-langs-label">Supports</span>
-          <div class="hero-lang-item">
-            <i class="devicon-csharp-plain"></i>
-            <span>C#</span>
+          <div class="hero-langs-row">
+            <span class="hero-langs-label">Supports</span>
+            <div class="hero-lang-item">
+              <i class="devicon-csharp-plain"></i>
+              <span>C#</span>
+            </div>
+            <div class="hero-lang-item">
+              <i class="devicon-java-plain"></i>
+              <span>Java</span>
+            </div>
+            <div class="hero-lang-item">
+              <i class="devicon-python-plain"></i>
+              <span>Python</span>
+            </div>
           </div>
-          <div class="hero-lang-item">
-            <i class="devicon-java-plain"></i>
-            <span>Java</span>
-          </div>
-          <div class="hero-lang-item">
-            <i class="devicon-python-plain"></i>
-            <span>Python</span>
-          </div>
-          <div class="hero-lang-item hero-lang-item--soon">
-            <i class="devicon-javascript-plain"></i>
-            <span>JavaScript</span>
-            <span class="lang-coming-soon">Soon</span>
+          <div class="hero-langs-row">
+            <div class="hero-lang-item">
+              <i class="devicon-javascript-plain"></i>
+              <span>JavaScript</span>
+            </div>
+            <div class="hero-lang-item hero-lang-item--soon">
+              <i class="devicon-c-plain"></i>
+              <span>C</span>
+              <span class="lang-coming-soon">Soon</span>
+            </div>
           </div>
         </div>
 
@@ -1017,6 +1044,399 @@
       </div>
     </div>
   </footer>
+
+  </div><!-- /#page-cs -->
+
+  <!-- ==================== ASM PAGE ==================== -->
+  <div id="page-asm" style="display:none;">
+
+    <section id="asm-hero">
+      <canvas id="hero-canvas-asm"></canvas>
+      <div class="asm-hero-inner">
+
+        <!-- LEFT -->
+        <div class="asm-hero-left">
+          <h1 class="asm-hero-title">
+            Every instruction,<br>
+            <span class="hl">visualized.</span>
+          </h1>
+
+          <div class="asm-lang-row">
+            <div class="asm-lang-item"><span class="asm-lang-label">NASM</span></div>
+            <div class="asm-lang-item"><span class="asm-lang-label">MASM</span></div>
+            <div class="asm-lang-item"><span class="asm-lang-label">TASM</span></div>
+          </div>
+
+          <p class="asm-hero-sub">
+            Step through 8086 assembly with live register tracking,
+            memory layout diagrams, stack visualization, and more.
+          </p>
+
+          <div class="hero-actions">
+            <a href="#asm-visualizers" class="btn btn-primary btn-lg">Explore views →</a>
+            <a href="#asm-download" class="btn btn-outline btn-lg">Download →</a>
+          </div>
+        </div>
+
+        <!-- RIGHT -->
+        <div class="asm-hero-right">
+          <img
+            class="asm-hero-screenshot"
+            src="images/asm/asm%201%20dark.png"
+            alt="ASM Visualizer — editor, debugger, and flowchart view"
+          />
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==================== ASM TRY IT - REMOVED ==================== -->
+    <section id="asm-testit" style="display:none;">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-eyebrow">try it now</div>
+          <h2 class="section-title">See it in action.</h2>
+          <p class="section-sub">This is exactly what ASM Visualizer looks like. Step through 8086 assembly with live registers, flags, stack, and instruction anatomy.</p>
+        </div>
+
+        <div class="browser-frame">
+          <div class="browser-body asm-browser-body">
+            <div class="asm-app">
+
+              <!-- TOP STRIP -->
+              <div class="asm-top-strip">
+                <div class="asm-ts-left">
+                  <span class="asm-ts-icon">&lt;/&gt;</span>
+                  <span class="asm-ts-label">EDITOR</span>
+                  <span class="asm-ts-arrow">&#9658;1</span>
+                  <span class="asm-ts-sep">|</span>
+                  <span class="asm-ts-label">MACHINE FLOW</span>
+                </div>
+                <div class="asm-ts-right">
+                  <span class="asm-ts-step" id="asmv-top-step">STEP 0</span>
+                </div>
+              </div>
+
+              <!-- BODY: editor + machine flow -->
+              <div class="asm-body">
+
+                <!-- EDITOR -->
+                <div class="asm-editor-col">
+                  <div class="asm-ed-hdr"><span class="asm-ed-icon">&lt;/&gt;</span> EDITOR <span class="asm-ed-hint">&#9658;1</span></div>
+                  <div class="asm-code-area" id="asmv-code"></div>
+                </div>
+
+                <!-- MACHINE FLOW + DEBUGGER -->
+                <div class="asm-mf-col">
+
+                  <!-- tab bar -->
+                  <div class="asm-mf-tabbar">
+                    <button class="asm-mf-tab" data-asmtab="instruction">INSTRUCTION</button>
+                    <button class="asm-mf-tab" data-asmtab="alu">ALU / BITS</button>
+                    <button class="asm-mf-tab" data-asmtab="jumps">JUMPS</button>
+                    <button class="asm-mf-tab" data-asmtab="interrupts">INTERRUPTS</button>
+                    <button class="asm-mf-tab asm-mf-tab--active" data-asmtab="flowchart">FLOWCHART</button>
+                    <button class="asm-mf-tab" data-asmtab="history">REG HISTORY</button>
+                    <button class="asm-mf-tab" data-asmtab="heatmap">MEM HEATMAP</button>
+                    <span class="asm-mf-cycles" id="asmv-cycles">&#8212; Step 0 &nbsp; 0 cycles</span>
+                  </div>
+
+                  <!-- tab content (instruction anatomy) -->
+                  <div class="asm-mf-content" id="asmv-mf-content">
+                    <p class="asm-mf-empty">Step through the program to see instruction anatomy.</p>
+                  </div>
+
+                  <!-- tab overlays (cover MF content area) -->
+                  <div class="asm-mf-overlay" id="asmv-alu-pane"></div>
+                  <div class="asm-mf-overlay" id="asmv-jumps-pane"></div>
+                  <div class="asm-mf-overlay" id="asmv-int-pane"></div>
+                  <div class="asm-mf-overlay" id="asmv-flow-pane"></div>
+                  <div class="asm-mf-overlay" id="asmv-history-pane"></div>
+
+                </div><!-- /asm-mf-col -->
+              </div><!-- /asm-body -->
+
+              <!-- DEBUGGER CARD — draggable floating window over full app -->
+              <div class="asm-dbg-card" id="asmv-dbg-card">
+
+                <!-- debugger header (drag handle) -->
+                <div class="asm-dbg-hdr" id="asmv-dbg-hdr">
+                  <span class="asm-dbg-gear">&#9881;</span>
+                  <span class="asm-dbg-title">DEBUGGER</span>
+                  <div class="asm-dbg-btns">
+                    <button class="asm-btn-step" id="asmv-step">&#9654; Step</button>
+                    <button class="asm-btn-run" id="asmv-play">&#9654; Run</button>
+                    <button class="asm-btn-x10" id="asmv-x10">&#9655;| &#215;10</button>
+                    <label class="asm-stop-lbl"><input type="checkbox" id="asmv-stop-chk"> Stop</label>
+                  </div>
+                  <span class="asm-dbg-info" id="asmv-dbg-info">Step 0 &nbsp; Next: line 10 &nbsp; Cycles: 0</span>
+                  <div class="asm-dbg-wctrls">
+                    <button class="asm-dbg-wbtn" id="asmv-reset" title="Reset">&#8634;</button>
+                    <button class="asm-dbg-wbtn">&#8599;</button>
+                    <button class="asm-dbg-wbtn">&#10005;</button>
+                  </div>
+                </div>
+
+                <!-- registers grid -->
+                <div class="asm-regs-row">
+
+                  <div class="asm-rg">
+                    <div class="asm-rg-lbl">GENERAL</div>
+                    <div class="asm-rg-cells">
+                      <div class="asm-rb" id="rb-AX"><span class="asm-rb-n">AX</span><span class="asm-rb-h">0x0000</span><span class="asm-rb-d">0</span></div>
+                      <div class="asm-rb" id="rb-BX"><span class="asm-rb-n">BX</span><span class="asm-rb-h">0x0000</span><span class="asm-rb-d">0</span></div>
+                      <div class="asm-rb" id="rb-CX"><span class="asm-rb-n">CX</span><span class="asm-rb-h">0x0000</span><span class="asm-rb-d">0</span></div>
+                      <div class="asm-rb" id="rb-DX"><span class="asm-rb-n">DX</span><span class="asm-rb-h">0x0000</span><span class="asm-rb-d">0</span></div>
+                    </div>
+                  </div>
+
+                  <div class="asm-rg">
+                    <div class="asm-rg-lbl">INDEX / POINTER</div>
+                    <div class="asm-rg-cells">
+                      <div class="asm-rb" id="rb-SI"><span class="asm-rb-n">SI</span><span class="asm-rb-h">0x0000</span><span class="asm-rb-d">0</span></div>
+                      <div class="asm-rb" id="rb-DI"><span class="asm-rb-n">DI</span><span class="asm-rb-h">0x0000</span><span class="asm-rb-d">0</span></div>
+                      <div class="asm-rb" id="rb-BP"><span class="asm-rb-n">BP</span><span class="asm-rb-h">0x0000</span><span class="asm-rb-d">0</span></div>
+                      <div class="asm-rb" id="rb-SP"><span class="asm-rb-n">SP</span><span class="asm-rb-h">0xFFFE</span><span class="asm-rb-d">65534</span></div>
+                    </div>
+                  </div>
+
+                  <div class="asm-rg">
+                    <div class="asm-rg-lbl">SEGMENT</div>
+                    <div class="asm-rg-cells">
+                      <div class="asm-rb" id="rb-CS"><span class="asm-rb-n">CS</span><span class="asm-rb-h">0x1000</span><span class="asm-rb-d">4096</span></div>
+                      <div class="asm-rb" id="rb-DS"><span class="asm-rb-n">DS</span><span class="asm-rb-h">0x1000</span><span class="asm-rb-d">4096</span></div>
+                      <div class="asm-rb" id="rb-ES"><span class="asm-rb-n">ES</span><span class="asm-rb-h">0x1000</span><span class="asm-rb-d">4096</span></div>
+                      <div class="asm-rb" id="rb-SS"><span class="asm-rb-n">SS</span><span class="asm-rb-h">0x1000</span><span class="asm-rb-d">4096</span></div>
+                    </div>
+                  </div>
+
+                  <div class="asm-rg asm-rg--special">
+                    <div class="asm-rg-lbl">SPECIAL</div>
+                    <div class="asm-rg-cells">
+                      <div class="asm-rb" id="rb-IP"><span class="asm-rb-n">IP</span><span class="asm-rb-h">0x0000</span><span class="asm-rb-d">0</span></div>
+                    </div>
+                  </div>
+
+                  <div class="asm-rg asm-rg--flags">
+                    <div class="asm-rg-lbl">FLAGS</div>
+                    <div class="asm-flags-grid" id="asmv-flags">
+                      <div class="asm-fc" id="fc-ZF"><span class="asm-fc-dot"></span><span class="asm-fc-n">ZF</span><span class="asm-fc-v">0</span></div>
+                      <div class="asm-fc" id="fc-CF"><span class="asm-fc-dot"></span><span class="asm-fc-n">CF</span><span class="asm-fc-v">0</span></div>
+                      <div class="asm-fc" id="fc-SF"><span class="asm-fc-dot"></span><span class="asm-fc-n">SF</span><span class="asm-fc-v">0</span></div>
+                      <div class="asm-fc" id="fc-OF"><span class="asm-fc-dot"></span><span class="asm-fc-n">OF</span><span class="asm-fc-v">0</span></div>
+                      <div class="asm-fc" id="fc-PF"><span class="asm-fc-dot"></span><span class="asm-fc-n">PF</span><span class="asm-fc-v">0</span></div>
+                      <div class="asm-fc" id="fc-AF"><span class="asm-fc-dot"></span><span class="asm-fc-n">AF</span><span class="asm-fc-v">0</span></div>
+                      <div class="asm-fc" id="fc-DF"><span class="asm-fc-dot"></span><span class="asm-fc-n">DF</span><span class="asm-fc-v">0</span></div>
+                      <div class="asm-fc asm-fc--set" id="fc-IF"><span class="asm-fc-dot"></span><span class="asm-fc-n">IF</span><span class="asm-fc-v">1</span></div>
+                    </div>
+                  </div>
+
+                </div><!-- /asm-regs-row -->
+
+                <!-- STACK + TRACE -->
+                <div class="asm-dbg-bottom">
+
+                  <div class="asm-stack-col">
+                    <div class="asm-stack-hdr">STACK <span id="asmv-sp-lbl">SP=0xFFFE</span></div>
+                    <div class="asm-stack-tbl" id="asmv-stack-tbl">
+                      <div class="asm-sr asm-sr--sp"><span class="asm-sr-arr">&#9655;</span><span class="asm-sr-lbl">SP</span><span class="asm-sr-val">0x0000</span><span class="asm-sr-dec">0</span></div>
+                      <div class="asm-sr"><span class="asm-sr-arr"></span><span class="asm-sr-lbl">+2</span><span class="asm-sr-val">0x0000</span><span class="asm-sr-dec">0</span></div>
+                      <div class="asm-sr"><span class="asm-sr-arr"></span><span class="asm-sr-lbl">+4</span><span class="asm-sr-val">0x0000</span><span class="asm-sr-dec">0</span></div>
+                      <div class="asm-sr"><span class="asm-sr-arr"></span><span class="asm-sr-lbl">+6</span><span class="asm-sr-val">0x0000</span><span class="asm-sr-dec">0</span></div>
+                      <div class="asm-sr"><span class="asm-sr-arr"></span><span class="asm-sr-lbl">+8</span><span class="asm-sr-val">0x0000</span><span class="asm-sr-dec">0</span></div>
+                      <div class="asm-sr"><span class="asm-sr-arr"></span><span class="asm-sr-lbl">+10</span><span class="asm-sr-val">0x0000</span><span class="asm-sr-dec">0</span></div>
+                      <div class="asm-sr"><span class="asm-sr-arr"></span><span class="asm-sr-lbl">+12</span><span class="asm-sr-val">0x0000</span><span class="asm-sr-dec">0</span></div>
+                      <div class="asm-sr"><span class="asm-sr-arr"></span><span class="asm-sr-lbl">+14</span><span class="asm-sr-val">0x0000</span><span class="asm-sr-dec">0</span></div>
+                    </div>
+                  </div>
+
+                  <div class="asm-trace-col">
+                    <div class="asm-trace-tabbar">
+                      <button class="asm-trace-tab asm-trace-tab--active">TRACE</button>
+                      <button class="asm-trace-tab">MEMORY</button>
+                      <button class="asm-trace-tab">WATCHPOINTS</button>
+                    </div>
+                    <div class="asm-trace-body" id="asmv-trace">
+                      <div class="asm-trace-empty">
+                        <span class="asm-trace-ei">&#9776;</span>
+                        <p>Execution trace will appear as you step.</p>
+                      </div>
+                    </div>
+                  </div>
+
+                </div><!-- /asm-dbg-bottom -->
+
+                <!-- resize handle -->
+                <div class="asm-dbg-resize" id="asmv-dbg-resize"></div>
+
+              </div><!-- /asm-dbg-card -->
+
+            </div><!-- /asm-app -->
+          </div><!-- /browser-body -->
+        </div><!-- /browser-frame -->
+      </div>
+    </section>
+
+    <!-- ==================== ASM VISUALIZERS ==================== -->
+    <section id="asm-visualizers">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-eyebrow">9 views</div>
+          <h2 class="section-title">Every layer of 8086,<br>rendered live.</h2>
+          <p class="section-sub">
+            From raw machine bytes to control-flow graphs. Step through your code and watch every concept unfold in real time.
+          </p>
+        </div>
+
+        <!-- ROW 1 -->
+        <div class="viz-row">
+
+          <div class="viz-card lp-card adbg">
+            <div class="lp-icon">&#9881;</div>
+            <div class="lp-title">LIVE DEBUGGER</div>
+            <div class="lp-desc">See every register, flag, and memory byte update live — step through your code and watch the machine think.</div>
+          </div>
+
+          <div class="viz-card lp-card astep">
+            <div class="lp-icon">&#9654;</div>
+            <div class="lp-title">CPU STEP VIEW</div>
+            <div class="lp-desc">No more guessing. See exactly what your CPU does at every step.</div>
+          </div>
+
+          <div class="viz-card lp-card aflow">
+            <div class="lp-icon">&#9671;</div>
+            <div class="lp-title">FLOWCHART</div>
+            <div class="lp-desc">Instantly visualize any block of code as a control-flow diagram — select lines, see the flowchart.</div>
+          </div>
+
+          <div class="viz-card lp-card adec">
+            <div class="lp-icon">&#8801;</div>
+            <div class="lp-title">INSTRUCTION DECODE</div>
+            <div class="lp-desc">Every instruction decoded — see the operands, affected flags, memory address math, and raw machine bytes.</div>
+          </div>
+
+          <div class="viz-card lp-card aflags">
+            <div class="lp-icon">&#9873;</div>
+            <div class="lp-title">FLAGS / BITS</div>
+            <div class="lp-desc">Watch every flag light up in real time — see exactly which bits triggered ZF, CF, SF, and OF after each operation.</div>
+          </div>
+
+        </div><!-- /viz-row 1 -->
+
+        <!-- INLINE EXPAND PANEL -->
+        <div class="viz-expand" id="asm-viz-expand">
+          <div class="viz-expand-inner">
+            <div class="vp-info">
+              <div class="vp-icon" id="asm-vp-icon"></div>
+              <div class="vp-title" id="asm-vp-title">Hover a view</div>
+              <p class="vp-desc" id="asm-vp-desc">Select any card to see a preview.</p>
+            </div>
+            <div class="vp-screen">
+              <img id="asm-vp-img" class="vp-img" alt="">
+              <div class="vp-empty" id="asm-vp-empty"><i class="fa-regular fa-image"></i></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ROW 2 -->
+        <div class="viz-row asm-viz-row-2">
+
+          <div class="viz-card lp-card abranch">
+            <div class="lp-icon">&#8658;</div>
+            <div class="lp-title">BRANCH ANALYSIS</div>
+            <div class="lp-desc">See exactly which condition decides each branch — the active flags, the jump rule, and where IP lands next.</div>
+          </div>
+
+          <div class="viz-card lp-card aint">
+            <div class="lp-icon">&#9889;</div>
+            <div class="lp-title">INTERRUPTS</div>
+            <div class="lp-desc">Step through it — each INT lights up the interrupt panel showing the service name, IVT entry, and stack snapshot.</div>
+          </div>
+
+          <div class="viz-card lp-card ahist">
+            <div class="lp-icon">&#8767;</div>
+            <div class="lp-title">REGISTER HISTORY</div>
+            <div class="lp-desc">Watch every register's full journey — sparklines trace every value change from step 1 to now.</div>
+          </div>
+
+          <div class="viz-card lp-card aheat">
+            <div class="lp-icon">&#9638;</div>
+            <div class="lp-title">MEMORY HEATMAP</div>
+            <div class="lp-desc">Every memory access mapped live — see exactly which bytes were read or written, how hot each address ran, and how deep the stack grew.</div>
+          </div>
+
+        </div><!-- /viz-row 2 -->
+
+        <!-- INLINE EXPAND PANEL — row 2 -->
+        <div class="viz-expand" id="asm-viz-expand-2">
+          <div class="viz-expand-inner">
+            <div class="vp-info">
+              <div class="vp-icon" id="asm-vp-icon-2"></div>
+              <div class="vp-title" id="asm-vp-title-2">Hover a view</div>
+              <p class="vp-desc" id="asm-vp-desc-2">Select any card to see a preview.</p>
+            </div>
+            <div class="vp-screen">
+              <img id="asm-vp-img-2" class="vp-img" alt="">
+              <div class="vp-empty" id="asm-vp-empty-2"><i class="fa-regular fa-image"></i></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==================== ASM DOWNLOAD ==================== -->
+    <section id="asm-download">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-eyebrow">platforms</div>
+          <h2 class="section-title">Download ASM Visualizer.</h2>
+          <p class="section-sub">
+            Get the full desktop experience — live debugger, all 9 views, and Monaco editor.
+          </p>
+        </div>
+
+        <div class="platform-grid asm-platform-grid">
+
+          <!-- WINDOWS -->
+          <a href="https://apps.microsoft.com/detail/9pmn99kq54b1?ocid=webpdpshare"
+             class="platform-card platform-card--link" target="_blank" data-gsap="card">
+            <span class="plat-logo"><i class="fab fa-windows"></i></span>
+            <h3>Windows</h3>
+            <span class="plat-sub">Microsoft Store</span>
+          </a>
+
+          <!-- MACOS -->
+          <div class="platform-card platform-card--muted" data-gsap="card">
+            <span class="plat-logo"><i class="fab fa-apple"></i></span>
+            <h3>macOS</h3>
+            <span class="plat-sub plat-sub--soon">Coming Soon</span>
+          </div>
+
+        </div>
+
+        <div class="platform-btn-row asm-platform-btn-row">
+          <a href="https://apps.microsoft.com/detail/9pmn99kq54b1?ocid=webpdpshare"
+             class="btn-install" target="_blank">
+            <i class="fab fa-microsoft"></i> Get from Microsoft Store
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+    <footer>
+      <div class="footer-bottom">
+        <span>© 2026 David Frucht</span>
+        <div class="footer-links">
+          <a href="#">Terms</a>
+          <a href="#">Privacy</a>
+          <a href="mailto:davidfruc@gmail.com">Contact</a>
+        </div>
+      </div>
+    </footer>
+
+  </div><!-- /#page-asm -->
 
   <!-- ==================== CONTACT MODAL ==================== -->
   <div id="contact-overlay">
